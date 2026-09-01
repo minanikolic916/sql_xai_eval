@@ -32,7 +32,7 @@
               "submission_id": "s1_q1_sub3",
               "submission_query": "SELECT MANUFACTURER, LENGTH AS SKI_DATA FROM SKIES JOIN SKI_RENT ON SKIES.ID = SKI_RENT.SKI_ID ORDER BY SKIES.LENGTH DESC;",
               "human_label": "incorrect_semantic",
-              "human_reason": "The query is syntactically correct, but there isn’t a count function, no left join, just inner join and there isn’t a group by clause. In the select statement, a column regarding the ski model is also missing.",
+              "human_reason": "The query is syntactically correct, but there is not a count function, no left join, just inner join and there isn’t a group by clause. In the select statement, a column regarding the ski model is also missing.",
               "oracle_error": ""
             },
             {

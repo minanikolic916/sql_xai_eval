@@ -13,7 +13,6 @@ class GraderInput(TypedDict):
     gold_sql: str
     submission_sql: str
 
-
 class Verdict(BaseModel):
     label: Literal["correct", "incorrect_syntax", "incorrect_semantic"] = Field(
         description="correct: semantically equivalent to gold. "
@@ -22,20 +21,20 @@ class Verdict(BaseModel):
     reason: str = Field(
         description="Concise account of the specific problem, or why it is correct.")
 
-
 SYSTEM = (
     "You grade a student's SQL answer to a natural-language question against a "
-    "reference (gold) query. Assign exactly one label:\n"
+    "reference (gold) query. You are grading Oracle SQL syntax. Assign exactly one label:\n"
     "- incorrect_syntax: the query would fail to parse or execute (bad grammar, "
     "unknown table/column, type error).\n"
     "- incorrect_semantic: it parses and runs, but does not correctly answer the "
-    "question -- wrong join, filter, aggregation, grouping, projection, or ordering.\n"
+    "question: wrong join, filter, aggregation, grouping or ordering.\n"
     "- correct: it is semantically equivalent to the gold query.\n\n"
     "Judge equivalence by MEANING, not by text. A query written very differently "
-    "from the gold -- different aliases, join order, subquery vs join, extra "
-    "parentheses -- is still CORRECT if it returns the same result for the "
+    "from the gold: different aliases, join order, subquery vs join, extra "
+    "parentheses, comma syntax for joins, different order of columns in the select statement "
+    "is still CORRECT if it returns the same result for the "
     "question. Do not penalize style. Point to the specific offending clause when "
-    "there is a fault. Base your verdict only on the information given."
+    "there is a fault. Base your verdict only on the information given. Be precise, give a reason not longer than three sentences."
 )
 
 HUMAN = (
@@ -45,9 +44,7 @@ HUMAN = (
     "Student SQL:\n{submission_sql}"
 )
 
-
 PROMPT = ChatPromptTemplate.from_messages([("system", SYSTEM), ("human", HUMAN)])
-
 
 def build_grader(model: str = "gpt-5.6",
                  provider: str = "openai",

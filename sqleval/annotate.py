@@ -88,7 +88,6 @@ def compare(annotation_path: Path | None = None,
     return {"run_id": document["run_id"], "n_total": len(document["annotations"]),
             "table": table, "blank": blank, "invalid": invalid}
 
-
 def render_comparison(summary: dict) -> str:
     table = summary["table"]
     agreed = sum(table["agreed"].values())
@@ -110,7 +109,6 @@ def render_comparison(summary: dict) -> str:
         lines.append(f"unrecognised cause values (ignored): {', '.join(summary['invalid'])}")
     return "\n".join(lines)
 
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="Hand-judge the grader's reasons.")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -130,7 +128,6 @@ def main() -> None:
     else:
         print(render_comparison(compare(
             Path(args.annotation_path) if args.annotation_path else None)))
-
 
 if __name__ == "__main__":
     main()
