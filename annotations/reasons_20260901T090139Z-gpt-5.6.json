@@ -1,0 +1,501 @@
+{
+  "run_id": "20260901T090139Z-gpt-5.6",
+  "dataset_version": "1.2",
+  "cause_values": [
+    "same",
+    "partial",
+    "different"
+  ],
+  "annotations": [
+    {
+      "submission_id": "s1_q1_sub1",
+      "question_id": "s1_q1",
+      "nl_question": "List the full names of members who joined in 2023.",
+      "gold_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "submission_query": "SELECT full_name FROM members WHERE join_date BETWEEN DATE '2023-01-01' AND DATE '2023-12-31'",
+      "human_reason": "Equivalent date-range filter; returns the same members as the gold query.",
+      "llm_reason": "The inclusive date range from 2023-01-01 through 2023-12-31 selects the same members as extracting the year and comparing it to 2023.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q1_sub2",
+      "question_id": "s1_q1",
+      "nl_question": "List the full names of members who joined in 2023.",
+      "gold_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "submission_query": "SELECT full_name FROM membrs WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "human_reason": "The table name 'membrs' does not exist in the schema.",
+      "llm_reason": "The FROM clause references unknown table `membrs`; the schema defines the table as `members`, so the query would fail to execute.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q1_sub3",
+      "question_id": "s1_q1",
+      "nl_question": "List the full names of members who joined in 2023.",
+      "gold_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "submission_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2022",
+      "human_reason": "Filters on the year 2022 instead of 2023, so it returns the wrong members.",
+      "llm_reason": "The WHERE clause filters for join year 2022 instead of the requested 2023.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q1_sub4",
+      "question_id": "s1_q1",
+      "nl_question": "List the full names of members who joined in 2023.",
+      "gold_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "submission_query": "SELECT m.full_name FROM members m WHERE EXTRACT(YEAR FROM m.join_date) = 2023",
+      "human_reason": "Same logic as the gold query, only with a table alias; result is identical.",
+      "llm_reason": "The student query is semantically equivalent to the gold query; it only adds a table alias.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q1_sub5",
+      "question_id": "s1_q1",
+      "nl_question": "List the full names of members who joined in 2023.",
+      "gold_query": "SELECT full_name FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "submission_query": "SELECT member_id FROM members WHERE EXTRACT(YEAR FROM join_date) = 2023",
+      "human_reason": "Projects member_id instead of the requested full_name.",
+      "llm_reason": "The projection is wrong: the query selects member_id instead of the requested full_name.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q2_sub1",
+      "question_id": "s1_q2",
+      "nl_question": "How many books has each member borrowed? Show the member's name and the count.",
+      "gold_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "submission_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "human_reason": "Matches the gold query exactly.",
+      "llm_reason": "The student query exactly matches the gold query, including the join, projection, count, and grouping.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q2_sub2",
+      "question_id": "s1_q2",
+      "nl_question": "How many books has each member borrowed? Show the member's name and the count.",
+      "gold_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "submission_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id",
+      "human_reason": "Aggregate with a non-aggregated column and no GROUP BY; Oracle rejects this (ORA-00937).",
+      "llm_reason": "The query selects m.full_name alongside COUNT(*) without grouping by m.full_name. In standard SQL this fails because the non-aggregated selected column is not in a GROUP BY clause.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q2_sub3",
+      "question_id": "s1_q2",
+      "nl_question": "How many books has each member borrowed? Show the member's name and the count.",
+      "gold_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "submission_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.member_id, m.full_name",
+      "human_reason": "Grouping by member_id as well as full_name is equivalent here and safer against duplicate names; same counts.",
+      "llm_reason": "Grouping by both the primary key m.member_id and m.full_name preserves separate members and returns each member's name with their loan count. Under the stated primary-key constraint, this correctly answers the question (and only differs from the gold when distinct members share a name, where the student's grouping is arguably more faithful to 'each member').",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q2_sub4",
+      "question_id": "s1_q2",
+      "nl_question": "How many books has each member borrowed? Show the member's name and the count.",
+      "gold_query": "SELECT m.full_name, COUNT(*) FROM members m JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "submission_query": "SELECT m.full_name, COUNT(*) FROM members m LEFT JOIN loans l ON l.member_id = m.member_id GROUP BY m.full_name",
+      "human_reason": "The LEFT JOIN adds members with no loans and COUNT(*) reports 1 for them instead of 0.",
+      "llm_reason": "The LEFT JOIN includes members with no loans and reports COUNT(*) = 1 for them, whereas the gold INNER JOIN excludes such members. The differing JOIN type (and COUNT(*) with it) changes the result.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q3_sub1",
+      "question_id": "s1_q3",
+      "nl_question": "List the titles of books that have never been borrowed.",
+      "gold_query": "SELECT b.title FROM books b WHERE NOT EXISTS (SELECT 1 FROM loans l WHERE l.book_id = b.book_id)",
+      "submission_query": "SELECT b.title FROM books b LEFT JOIN loans l ON l.book_id = b.book_id WHERE l.loan_id IS NULL",
+      "human_reason": "Anti-join written as a LEFT JOIN with an IS NULL test; returns the same titles as the gold query.",
+      "llm_reason": "The LEFT JOIN followed by WHERE l.loan_id IS NULL returns exactly the books with no matching loan. Since loans.loan_id is a primary key and therefore non-NULL for matched rows, this is semantically equivalent to the NOT EXISTS query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q3_sub2",
+      "question_id": "s1_q3",
+      "nl_question": "List the titles of books that have never been borrowed.",
+      "gold_query": "SELECT b.title FROM books b WHERE NOT EXISTS (SELECT 1 FROM loans l WHERE l.book_id = b.book_id)",
+      "submission_query": "SELECT title FROM books WHERE book_id NOT IN (SELECT book_id FROM loans)",
+      "human_reason": "loans.book_id is a NOT NULL foreign key, so NOT IN is safe here and equivalent to the gold query.",
+      "llm_reason": "`NOT IN (SELECT book_id FROM loans)` is not equivalent to `NOT EXISTS` if `loans.book_id` can be NULL, which the given constraints do not prohibit. A NULL in the subquery would cause the query to return no books.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q3_sub3",
+      "question_id": "s1_q3",
+      "nl_question": "List the titles of books that have never been borrowed.",
+      "gold_query": "SELECT b.title FROM books b WHERE NOT EXISTS (SELECT 1 FROM loans l WHERE l.book_id = b.book_id)",
+      "submission_query": "SELECT title FROM books WHERE book_id NOT IN (SELECT book_id FROM loan)",
+      "human_reason": "The subquery reads from 'loan'; the schema defines the table as 'loans'.",
+      "llm_reason": "The subquery references `loan`, but the schema defines the table as `loans`; this unknown table would cause execution to fail.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q3_sub4",
+      "question_id": "s1_q3",
+      "nl_question": "List the titles of books that have never been borrowed.",
+      "gold_query": "SELECT b.title FROM books b WHERE NOT EXISTS (SELECT 1 FROM loans l WHERE l.book_id = b.book_id)",
+      "submission_query": "SELECT b.title FROM books b JOIN loans l ON l.book_id = b.book_id WHERE l.return_date IS NULL",
+      "human_reason": "Returns books that are currently out on loan, not books that were never borrowed.",
+      "llm_reason": "The INNER JOIN restricts results to books that have been borrowed, and `WHERE l.return_date IS NULL` selects loans that have not yet been returned. It does not identify books with no matching loan records.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q4_sub1",
+      "question_id": "s1_q4",
+      "nl_question": "Show the number of books in each genre, ordered from most to fewest.",
+      "gold_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY COUNT(*) DESC",
+      "submission_query": "SELECT genre, COUNT(*) AS book_count FROM books GROUP BY genre ORDER BY book_count DESC",
+      "human_reason": "Same grouping and ordering as the gold query; only adds a column alias.",
+      "llm_reason": "The alias book_count refers to COUNT(*) in the ORDER BY, so the query returns each genre's book count ordered from most to fewest, equivalent to the gold query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q4_sub2",
+      "question_id": "s1_q4",
+      "nl_question": "Show the number of books in each genre, ordered from most to fewest.",
+      "gold_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY COUNT(*) DESC",
+      "submission_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY COUNT(*) ASC",
+      "human_reason": "Orders from fewest to most; the question asks for most to fewest.",
+      "llm_reason": "The ORDER BY clause uses ASC, which sorts from fewest to most. The question requires most to fewest, so it should use ORDER BY COUNT(*) DESC.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q4_sub3",
+      "question_id": "s1_q4",
+      "nl_question": "Show the number of books in each genre, ordered from most to fewest.",
+      "gold_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY COUNT(*) DESC",
+      "submission_query": "SELECT genre, COUNT(*) FROM books ORDER BY COUNT(*) DESC",
+      "human_reason": "Aggregate with a non-aggregated column and no GROUP BY; Oracle rejects this (ORA-00937).",
+      "llm_reason": "The query omits `GROUP BY genre`. It therefore does not compute a separate count for each genre; in many SQL engines this aggregate/non-aggregate mix may also be rejected.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q4_sub4",
+      "question_id": "s1_q4",
+      "nl_question": "Show the number of books in each genre, ordered from most to fewest.",
+      "gold_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY COUNT(*) DESC",
+      "submission_query": "SELECT genre, COUNT(*) FROM books GROUP BY genre ORDER BY genre DESC",
+      "human_reason": "Orders alphabetically by genre rather than by the count.",
+      "llm_reason": "The ORDER BY clause sorts genres alphabetically descending (`ORDER BY genre DESC`) instead of sorting by the number of books descending (`ORDER BY COUNT(*) DESC`).",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q5_sub1",
+      "question_id": "s1_q5",
+      "nl_question": "List the full names of members who have borrowed a book but have not returned it.",
+      "gold_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date IS NULL",
+      "submission_query": "SELECT m.full_name FROM members m WHERE EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id AND l.return_date IS NULL)",
+      "human_reason": "EXISTS returns each qualifying member once, the same set as the gold query's DISTINCT join.",
+      "llm_reason": "The EXISTS predicate returns each member once if they have at least one loan with a NULL return_date, which is semantically equivalent to the gold query's join, filter, and DISTINCT.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q5_sub2",
+      "question_id": "s1_q5",
+      "nl_question": "List the full names of members who have borrowed a book but have not returned it.",
+      "gold_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date IS NULL",
+      "submission_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date = NULL",
+      "human_reason": "Parses, but '= NULL' is never true in Oracle, so the query always returns no rows; IS NULL is required.",
+      "llm_reason": "The predicate `l.return_date = NULL` never evaluates to true in SQL. It must use `l.return_date IS NULL` to select unreturned loans.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q5_sub3",
+      "question_id": "s1_q5",
+      "nl_question": "List the full names of members who have borrowed a book but have not returned it.",
+      "gold_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date IS NULL",
+      "submission_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.membr_id WHERE l.return_date IS NULL",
+      "human_reason": "The join references m.membr_id; the members table has no such column.",
+      "llm_reason": "The join condition references `m.membr_id`, which is not a column in `members`; the correct column is `m.member_id`.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q5_sub4",
+      "question_id": "s1_q5",
+      "nl_question": "List the full names of members who have borrowed a book but have not returned it.",
+      "gold_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date IS NULL",
+      "submission_query": "SELECT DISTINCT m.full_name FROM members m JOIN loans l ON l.member_id = m.member_id WHERE l.return_date IS NOT NULL",
+      "human_reason": "Returns members who have returned their books, the opposite of what the question asks.",
+      "llm_reason": "The WHERE clause is reversed: `l.return_date IS NOT NULL` selects returned loans, while the question requires unreturned loans (`l.return_date IS NULL`).",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q6_sub1",
+      "question_id": "s1_q6",
+      "nl_question": "Which members joined before 2023 and have never borrowed a book?",
+      "gold_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id)",
+      "submission_query": "SELECT m.full_name FROM members m LEFT JOIN loans l ON l.member_id = m.member_id WHERE m.join_date < DATE '2023-01-01' AND l.loan_id IS NULL",
+      "human_reason": "Anti-join written as a LEFT JOIN with an IS NULL test, same date bound; equivalent to the gold query.",
+      "llm_reason": "The LEFT JOIN followed by `l.loan_id IS NULL` correctly selects members with no matching loan. Since `loans.loan_id` is a primary key and therefore non-NULL, this is semantically equivalent to the gold query's `NOT EXISTS`, with the same join-date filter.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q6_sub2",
+      "question_id": "s1_q6",
+      "nl_question": "Which members joined before 2023 and have never borrowed a book?",
+      "gold_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id)",
+      "submission_query": "SELECT m.full_name FROM members m WHERE m.join_date <= DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id)",
+      "human_reason": "Uses <= so members who joined on 2023-01-01 are included; the question says before 2023.",
+      "llm_reason": "The filter uses `m.join_date <= DATE '2023-01-01'`, which incorrectly includes members who joined on January 1, 2023. “Before 2023” requires `< DATE '2023-01-01'`.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q6_sub3",
+      "question_id": "s1_q6",
+      "nl_question": "Which members joined before 2023 and have never borrowed a book?",
+      "gold_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id)",
+      "submission_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member = m.member_id)",
+      "human_reason": "The subquery references l.member; the loans table has no such column.",
+      "llm_reason": "The correlated subquery references `l.member`, but the `loans` table has no `member` column; the valid column is `l.member_id`, so the query would fail to execute.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q6_sub4",
+      "question_id": "s1_q6",
+      "nl_question": "Which members joined before 2023 and have never borrowed a book?",
+      "gold_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01' AND NOT EXISTS (SELECT 1 FROM loans l WHERE l.member_id = m.member_id)",
+      "submission_query": "SELECT m.full_name FROM members m WHERE m.join_date < DATE '2023-01-01'",
+      "human_reason": "Drops the never-borrowed condition and returns every member who joined before 2023.",
+      "llm_reason": "The query omits the condition excluding members who have borrowed books. It needs a NOT EXISTS check against loans correlated by member_id, so it currently returns all members who joined before 2023.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q7_sub1",
+      "question_id": "s1_q7",
+      "nl_question": "For each genre, show the genre and how many times books in that genre have been borrowed.",
+      "gold_query": "SELECT b.genre, COUNT(*) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "submission_query": "SELECT b.genre, COUNT(*) AS loan_count FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "human_reason": "Same join and grouping as the gold query; only adds a column alias.",
+      "llm_reason": "The query is semantically equivalent to the gold query; the only difference is the harmless alias `loan_count` for the count column.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q7_sub2",
+      "question_id": "s1_q7",
+      "nl_question": "For each genre, show the genre and how many times books in that genre have been borrowed.",
+      "gold_query": "SELECT b.genre, COUNT(*) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "submission_query": "SELECT b.genre, COUNT(*) FROM loans l JOIN books b ON b.book_id = l.book_id GROUP BY b.genre",
+      "human_reason": "The join is written from the other side, which does not change the result.",
+      "llm_reason": "The query is semantically equivalent to the gold query; it uses the same inner join condition, grouping by genre, and COUNT(*) aggregation, with only the join order reversed.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q7_sub3",
+      "question_id": "s1_q7",
+      "nl_question": "For each genre, show the genre and how many times books in that genre have been borrowed.",
+      "gold_query": "SELECT b.genre, COUNT(*) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "submission_query": "SELECT b.genre, COUNT(DISTINCT b.book_id) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "human_reason": "Counts how many distinct books in the genre were borrowed, not how many times they were borrowed.",
+      "llm_reason": "COUNT(DISTINCT b.book_id) counts the number of distinct books borrowed in each genre, not the total number of borrowing events. The required count is COUNT(*) (or COUNT(l.loan_id)), so repeated loans of the same book must be counted multiple times.",
+      "cause": null
+    },
+    {
+      "submission_id": "s1_q7_sub4",
+      "question_id": "s1_q7",
+      "nl_question": "For each genre, show the genre and how many times books in that genre have been borrowed.",
+      "gold_query": "SELECT b.genre, COUNT(*) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "submission_query": "SELECT b.genre, b.title, COUNT(*) FROM books b JOIN loans l ON l.book_id = b.book_id GROUP BY b.genre",
+      "human_reason": "b.title is selected but not grouped or aggregated; Oracle rejects this (ORA-00979).",
+      "llm_reason": "The SELECT clause includes b.title, but b.title is neither aggregated nor included in GROUP BY. Under standard SQL grouping rules, the query fails to execute.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q1_sub1",
+      "question_id": "s2_q1",
+      "nl_question": "List the names of customers who live in Berlin.",
+      "gold_query": "SELECT name FROM customers WHERE city = 'Berlin'",
+      "submission_query": "SELECT c.name FROM customers c WHERE c.city = 'Berlin'",
+      "human_reason": "Same filter and projection as the gold query, only with a table alias.",
+      "llm_reason": "The student query is semantically equivalent to the gold query; it uses a valid alias and applies the same city filter while selecting customer names.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q1_sub2",
+      "question_id": "s2_q1",
+      "nl_question": "List the names of customers who live in Berlin.",
+      "gold_query": "SELECT name FROM customers WHERE city = 'Berlin'",
+      "submission_query": "SELECT name FROM customer WHERE city = 'Berlin'",
+      "human_reason": "The FROM clause names 'customer'; the schema defines the table as 'customers'.",
+      "llm_reason": "The FROM clause references `customer`, but the schema defines the table as `customers`; the unknown table would cause execution to fail.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q1_sub3",
+      "question_id": "s2_q1",
+      "nl_question": "List the names of customers who live in Berlin.",
+      "gold_query": "SELECT name FROM customers WHERE city = 'Berlin'",
+      "submission_query": "SELECT name FROM customers WHERE city = 'berlin'",
+      "human_reason": "String comparison is case sensitive in Oracle, so 'berlin' matches no rows.",
+      "llm_reason": "The WHERE clause compares city to lowercase 'berlin' instead of 'Berlin'. Under the usual case-sensitive string comparison, this can return different rows from the gold query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q1_sub4",
+      "question_id": "s2_q1",
+      "nl_question": "List the names of customers who live in Berlin.",
+      "gold_query": "SELECT name FROM customers WHERE city = 'Berlin'",
+      "submission_query": "SELECT city FROM customers WHERE city = 'Berlin'",
+      "human_reason": "Projects city instead of the requested customer name.",
+      "llm_reason": "The SELECT clause returns `city` instead of customer `name`, so it outputs 'Berlin' rather than the names of customers who live there.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q2_sub1",
+      "question_id": "s2_q2",
+      "nl_question": "How many orders has each customer placed? Show the customer name and the count.",
+      "gold_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.name",
+      "submission_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.customer_id, c.name",
+      "human_reason": "Grouping by customer_id as well as name is equivalent here and safer against duplicate names.",
+      "llm_reason": "Grouping by both the customer primary key and name preserves separate customers and produces the same per-customer order counts; it is at least as precise as the gold query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q2_sub2",
+      "question_id": "s2_q2",
+      "nl_question": "How many orders has each customer placed? Show the customer name and the count.",
+      "gold_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.name",
+      "submission_query": "SELECT c.name, COUNT(*) FROM customers c, orders o GROUP BY c.name",
+      "human_reason": "No join condition, so this cross joins and counts every order against every customer.",
+      "llm_reason": "The student query omits the join condition between customers and orders, creating a Cartesian product. Each customer's count will reflect all orders multiplied by matching customer rows rather than only that customer's orders.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q2_sub3",
+      "question_id": "s2_q2",
+      "nl_question": "How many orders has each customer placed? Show the customer name and the count.",
+      "gold_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.name",
+      "submission_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.custmer_id = c.customer_id GROUP BY c.name",
+      "human_reason": "The join references o.custmer_id; the orders table has no such column.",
+      "llm_reason": "The JOIN references the nonexistent column `o.custmer_id` (misspelled). The schema defines `orders.customer_id`, so the query would fail to execute.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q2_sub4",
+      "question_id": "s2_q2",
+      "nl_question": "How many orders has each customer placed? Show the customer name and the count.",
+      "gold_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.name",
+      "submission_query": "SELECT c.name, COUNT(*) FROM customers c JOIN orders o ON o.customer_id = c.customer_id GROUP BY c.name HAVING COUNT(*) > 1",
+      "human_reason": "Adds a HAVING filter the question does not ask for, dropping customers with a single order.",
+      "llm_reason": "The HAVING COUNT(*) > 1 clause incorrectly excludes customers who placed exactly one order; the question asks for the count for each customer represented by the inner join.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q3_sub1",
+      "question_id": "s2_q3",
+      "nl_question": "Show the total quantity ordered for each product, from highest to lowest.",
+      "gold_query": "SELECT p.name, SUM(i.quantity) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY SUM(i.quantity) DESC",
+      "submission_query": "SELECT p.name, SUM(i.quantity) AS total_quantity FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY total_quantity DESC",
+      "human_reason": "Ordering by the select-list alias is allowed in ORDER BY; same result as the gold query.",
+      "llm_reason": "The alias total_quantity refers to SUM(i.quantity), so ordering by it descending is semantically equivalent to the gold query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q3_sub2",
+      "question_id": "s2_q3",
+      "nl_question": "Show the total quantity ordered for each product, from highest to lowest.",
+      "gold_query": "SELECT p.name, SUM(i.quantity) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY SUM(i.quantity) DESC",
+      "submission_query": "SELECT p.name, COUNT(*) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY COUNT(*) DESC",
+      "human_reason": "Counts order lines per product instead of summing the quantity ordered.",
+      "llm_reason": "COUNT(*) counts order-item rows, not the total units ordered. The query should use SUM(i.quantity) in both the SELECT and ORDER BY clauses.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q3_sub3",
+      "question_id": "s2_q3",
+      "nl_question": "Show the total quantity ordered for each product, from highest to lowest.",
+      "gold_query": "SELECT p.name, SUM(i.quantity) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY SUM(i.quantity) DESC",
+      "submission_query": "SELECT p.name, SUM(i.quantiy) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY SUM(i.quantiy) DESC",
+      "human_reason": "Misspelled column i.quantiy; the order_items table has quantity.",
+      "llm_reason": "The query references `i.quantiy`, but `order_items` has a `quantity` column. This unknown column causes execution to fail in both the SELECT and ORDER BY clauses.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q3_sub4",
+      "question_id": "s2_q3",
+      "nl_question": "Show the total quantity ordered for each product, from highest to lowest.",
+      "gold_query": "SELECT p.name, SUM(i.quantity) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY SUM(i.quantity) DESC",
+      "submission_query": "SELECT p.name, SUM(i.quantity) FROM products p JOIN order_items i ON i.product_id = p.product_id GROUP BY p.name ORDER BY 3 DESC",
+      "human_reason": "ORDER BY 3 names a third select-list item that does not exist; Oracle rejects this (ORA-01785).",
+      "llm_reason": "ORDER BY 3 refers to a nonexistent third output column; the SELECT list has only two columns. It should order by column 2 or SUM(i.quantity).",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q4_sub1",
+      "question_id": "s2_q4",
+      "nl_question": "List the names of products that have never been ordered.",
+      "gold_query": "SELECT p.name FROM products p WHERE NOT EXISTS (SELECT 1 FROM order_items i WHERE i.product_id = p.product_id)",
+      "submission_query": "SELECT p.name FROM products p LEFT JOIN order_items i ON i.product_id = p.product_id WHERE i.order_item_id IS NULL",
+      "human_reason": "Anti-join written as a LEFT JOIN with an IS NULL test; same products as the gold query.",
+      "llm_reason": "The LEFT JOIN followed by `WHERE i.order_item_id IS NULL` correctly selects products with no matching order_items row. Since `order_item_id` is a primary key and cannot be NULL in matched rows, this is semantically equivalent to the gold NOT EXISTS query.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q4_sub2",
+      "question_id": "s2_q4",
+      "nl_question": "List the names of products that have never been ordered.",
+      "gold_query": "SELECT p.name FROM products p WHERE NOT EXISTS (SELECT 1 FROM order_items i WHERE i.product_id = p.product_id)",
+      "submission_query": "SELECT name FROM products WHERE product_id NOT IN (SELECT product_id FROM order_items)",
+      "human_reason": "order_items.product_id is a NOT NULL foreign key, so NOT IN is safe and equivalent here.",
+      "llm_reason": "The NOT IN subquery is not equivalent to NOT EXISTS if order_items.product_id can be NULL (the schema does not declare it NOT NULL). A NULL in the subquery makes the predicate UNKNOWN for every product, potentially returning no rows.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q4_sub3",
+      "question_id": "s2_q4",
+      "nl_question": "List the names of products that have never been ordered.",
+      "gold_query": "SELECT p.name FROM products p WHERE NOT EXISTS (SELECT 1 FROM order_items i WHERE i.product_id = p.product_id)",
+      "submission_query": "SELECT name FROM products WHERE product_id NOT IN (SELECT product_id FROM orders)",
+      "human_reason": "The subquery selects product_id from orders; that column lives on order_items, not orders.",
+      "llm_reason": "The subquery references `product_id` from `orders`, but the `orders` table has no such column. It should query `order_items.product_id`.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q4_sub4",
+      "question_id": "s2_q4",
+      "nl_question": "List the names of products that have never been ordered.",
+      "gold_query": "SELECT p.name FROM products p WHERE NOT EXISTS (SELECT 1 FROM order_items i WHERE i.product_id = p.product_id)",
+      "submission_query": "SELECT p.name FROM products p JOIN order_items i ON i.product_id = p.product_id WHERE i.quantity = 0",
+      "human_reason": "Returns products ordered with a zero quantity, not products that were never ordered.",
+      "llm_reason": "The inner JOIN restricts results to products that do have order_items, and `WHERE i.quantity = 0` finds ordered line items with zero quantity rather than products that have never been ordered.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q5_sub1",
+      "question_id": "s2_q5",
+      "nl_question": "Which customers have spent more than 500 in total? Show the customer name and the total spent.",
+      "gold_query": "SELECT c.name, SUM(i.quantity * i.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING SUM(i.quantity * i.unit_price) > 500",
+      "submission_query": "SELECT c.name, SUM(i.unit_price * i.quantity) FROM orders o JOIN customers c ON c.customer_id = o.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING SUM(i.unit_price * i.quantity) > 500",
+      "human_reason": "Same joins written in a different order and the factors swapped; identical result.",
+      "llm_reason": "The joins, grouping, aggregation, and HAVING condition are semantically equivalent to the gold query; reversing multiplication operands and join order does not change the result.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q5_sub2",
+      "question_id": "s2_q5",
+      "nl_question": "Which customers have spent more than 500 in total? Show the customer name and the total spent.",
+      "gold_query": "SELECT c.name, SUM(i.quantity * i.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING SUM(i.quantity * i.unit_price) > 500",
+      "submission_query": "SELECT c.name, SUM(i.quantity * i.unit_price) AS total_spent FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING total_spent > 500",
+      "human_reason": "Oracle does not allow a select-list alias in HAVING; total_spent is not in scope there (ORA-00904).",
+      "llm_reason": "The query computes the same per-customer total and applies the same threshold; using the aggregate alias total_spent in HAVING is semantically equivalent.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q5_sub3",
+      "question_id": "s2_q5",
+      "nl_question": "Which customers have spent more than 500 in total? Show the customer name and the total spent.",
+      "gold_query": "SELECT c.name, SUM(i.quantity * i.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING SUM(i.quantity * i.unit_price) > 500",
+      "submission_query": "SELECT c.name, SUM(i.quantity * i.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id WHERE SUM(i.quantity * i.unit_price) > 500 GROUP BY c.name",
+      "human_reason": "An aggregate cannot appear in WHERE; Oracle rejects this (ORA-00934).",
+      "llm_reason": "The aggregate condition `SUM(i.quantity * i.unit_price) > 500` is incorrectly placed in the `WHERE` clause. Aggregate filters must be in `HAVING` after `GROUP BY`; this query will fail to execute in standard SQL.",
+      "cause": null
+    },
+    {
+      "submission_id": "s2_q5_sub4",
+      "question_id": "s2_q5",
+      "nl_question": "Which customers have spent more than 500 in total? Show the customer name and the total spent.",
+      "gold_query": "SELECT c.name, SUM(i.quantity * i.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id GROUP BY c.name HAVING SUM(i.quantity * i.unit_price) > 500",
+      "submission_query": "SELECT c.name, SUM(i.quantity * p.unit_price) FROM customers c JOIN orders o ON o.customer_id = c.customer_id JOIN order_items i ON i.order_id = o.order_id JOIN products p ON p.product_id = i.product_id GROUP BY c.name HAVING SUM(i.quantity * p.unit_price) > 500",
+      "human_reason": "Uses the product's current list price instead of the price charged on the order line.",
+      "llm_reason": "The query calculates spending with products.unit_price (the current list price) instead of order_items.unit_price (the price actually charged on the order). This can produce incorrect totals and include or exclude the wrong customers.",
+      "cause": null
+    }
+  ]
+}

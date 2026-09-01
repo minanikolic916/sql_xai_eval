@@ -524,7 +524,7 @@ Schema 3:
 VETERINARIAN (ID, name, surname, specialization, years_of_experience, salary)
 PET (ID, name, pet_type, allergies)
 OWNER (ID, name, surname, city, phone)
-EXAM (ID, veterinarian_id, pet_id, owner_id, exam_id, exam_date, type_of_exam, duration, price, therapy_prescribed)
+EXAM (ID, veterinarian_id, pet_id, owner_id, exam_date, type_of_exam, duration, price, therapy_prescribed)
 
 PK constraints:
 

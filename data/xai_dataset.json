@@ -6,7 +6,7 @@
     {
       "schema_id": "s1",
       "name": "Ski rental",
-      "schema_description": "The ski rental database has four tables: worker, skies, skier and ski_rent.",
+      "schema_description": "The ski rental database has four tables: worker(id, name, surname, role, type_of_employment), skies(id, manufacturer, ski_model, length, category), skier(id, name, surname, gender, age, skier_level) and ski_rent(id, worker_id, ski_id, skier_id, price, rent_date, rent_duration, price_reduction).",
       "constraints": "PK constraints: worker(id), skies(id), skier(id), ski_rent(id)\nFK constraints: worker_id -> worker(id), ski_id -> skies(id), skier_id -> skier(id)",
       "questions": [
         {
@@ -182,7 +182,7 @@
     {
       "schema_id": "s2",
       "name": "Property renting agency",
-      "schema_description": "The property renting agency database has four tables: realtor, property, tenant and contract.",
+      "schema_description": "The property renting agency database has four tables: realtor(id, name, surname, salary, years_of_service), property(id, listing_name, location, construction_year, structure, parking), tenant(id, name, surname, gender, age) and contract(id, realtor_id, property_id, tenant_id, rental_date, price, contract_length).",
       "constraints": "PK constraints: realtor(id), property(id), tenant(id), contract(id)\nFK constraints: realtor_id -> realtor(id), property_id -> property(id), tenant_id -> tenant(id)",
       "questions": [
         {
@@ -358,7 +358,7 @@
     {
       "schema_id": "s3",
       "name": "Veterinary clinic",
-      "schema_description": "The veterinary clinic database has four tables: veterinarian, pet, owner and exam.",
+      "schema_description": "The veterinary clinic database has four tables: veterinarian(id, name, surname, specialization, years_of_experience, salary), pet(id, name, pet_type, allergies), owner(id, name, surname, city, phone) and exam(id, veterinarian_id, pet_id, owner_id, exam_date, type_of_exam, duration, price, therapy_prescribed).",
       "constraints": "PK constraints: veterinarian(id), pet(id), owner(id), exam(id)\nFK constraints: veterinarian_id -> veterinarian(id), pet_id -> pet(id), owner_id -> owner(id)",
       "questions": [
         {
@@ -534,7 +534,7 @@
     {
       "schema_id": "s4",
       "name": "Gym",
-      "schema_description": "The gym database has four tables: coach, package, gym_member and workout.",
+      "schema_description": "The gym database has four tables: coach(id, name, surname, specialization, number_of_active_members, provision_percentage), package(id, package_name, duration_months, price, discount, target_group), gym_member(id, name, surname, age, height, weight, status) and workout(id, coach_id, package_id, gym_member_id, workout_date, place, duration, grade).",
       "constraints": "PK constraints: coach(id), package(id), gym_member(id), workout(id)\nFK constraints: coach_id -> coach(id), package_id -> package(id), gym_member_id -> gym_member(id)",
       "questions": [
         {
@@ -710,7 +710,7 @@
     {
       "schema_id": "s5",
       "name": "Restaurant",
-      "schema_description": "The restaurant database has four tables: waiter, meal, guest and orders.",
+      "schema_description": "The restaurant database has four tables: waiter(id, name, surname, salary), meal(id, name, meal_type, number_of_calories, gluten), guest(id, name, surname, city, phone, regular_customers) and orders(id, waiter_id, meal_id, guest_id, order_date, price, payment_method, tip).",
       "constraints": "PK constraints: waiter(id), meal(id), guest(id), orders(id)\nFK constraints: waiter_id -> waiter(id), meal_id -> meal(id), guest_id -> guest(id)",
       "questions": [
         {
