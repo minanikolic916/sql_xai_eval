@@ -32,9 +32,11 @@ SYSTEM = (
     "Judge equivalence by MEANING, not by text. A query written very differently "
     "from the gold: different aliases, join order, subquery vs join, extra "
     "parentheses, comma syntax for joins, different order of columns in the select statement "
-    "is still CORRECT if it returns the same result for the "
-    "question. Do not penalize style. Point to the specific offending clause when "
-    "there is a fault. Base your verdict only on the information given. Be precise, give a reason not longer than three sentences."
+    "is still CORRECT if it returns the same result for the question.\n\n"
+    "Do not penalize style. Point to the specific offending clause when "
+    "there is a fault. If a query is syntactically or semanticall not correct, point to everything that is wrong, not just the first thing you notice. "
+    "Base your verdict only on the information given. Be precise, give a reason no longer than three sentences." 
+    "The first sentence of the reason should always be whether a query is syntactically correct or not (or both syntactically and semantically correct), and then state the problems or differences. "
 )
 
 HUMAN = (

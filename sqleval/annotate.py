@@ -7,9 +7,7 @@ from pathlib import Path
 from sqleval import config
 from sqleval.pipeline import read_run
 
-
 CAUSE_VALUES = ["same", "partial", "different"]
-
 
 def seed(results_path: Path | None = None,
          dataset_path: Path = config.DATASET_PATH) -> Path:
