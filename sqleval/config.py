@@ -39,8 +39,10 @@ def latest_results_path(output_dir: Path = OUTPUT_DIR) -> Path:
 
 GRADER_MODEL = os.getenv("GRADER_MODEL")
 GRADER_PROVIDER = os.getenv("GRADER_PROVIDER")
-DEFAULT_MODEL = "gpt-5.6"
-DEFAULT_PROVIDER = "openai"
+#DEFAULT_MODEL = "gpt-5.6"
+# Local by default: grading falls back to a model on this machine rather than
+# to a hosted API, so data cannot leave by accident.
+DEFAULT_PROVIDER = "ollama"
 MAX_CONCURRENCY = int(os.getenv("GRADER_MAX_CONCURRENCY", "1"))
 
 _temperature = os.getenv("GRADER_TEMPERATURE")

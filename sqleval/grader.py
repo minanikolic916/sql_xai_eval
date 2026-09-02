@@ -48,8 +48,8 @@ HUMAN = (
 
 PROMPT = ChatPromptTemplate.from_messages([("system", SYSTEM), ("human", HUMAN)])
 
-def build_grader(model: str = "gpt-5.6",
-                 provider: str = "openai",
+def build_grader(model: str,
+                 provider: str,
                  temperature: float | None = None):
     kwargs = {} if temperature is None else {"temperature": temperature}
     llm = init_chat_model(model, model_provider=provider, **kwargs)
