@@ -3,11 +3,7 @@
   "dialect": "oracle",
   "grader_model": "gpt-5.6",
   "grader_provider": "openai",
-  "label_values": [
-    "correct",
-    "incorrect_syntax",
-    "incorrect_semantic"
-  ],
+  "label_values": ["correct", "incorrect_syntax", "incorrect_semantic"],
   "schemas": [
     {
       "schema_id": "s1",

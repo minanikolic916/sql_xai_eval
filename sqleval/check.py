@@ -31,8 +31,8 @@ def main() -> None:
             print(message.content, "\n")
         return
 
-    model = dataset.get("grader_model", config.GRADER_MODEL)
-    provider = dataset.get("grader_provider", config.GRADER_PROVIDER)
+    model = config.GRADER_MODEL or dataset.get("grader_model", config.DEFAULT_MODEL)
+    provider = config.GRADER_PROVIDER or dataset.get("grader_provider", config.DEFAULT_PROVIDER)
     verdict = build_grader(model=model, provider=provider).invoke(record["grader_input"])
 
     print(f"{record['submission_id']} graded by {model} ({provider})\n")

@@ -65,8 +65,8 @@ def run(dataset_path: Path = config.DATASET_PATH,
         output_dir: Path = config.OUTPUT_DIR) -> Path:
     with open(dataset_path) as f:
         dataset = json.load(f)
-    model = dataset.get("grader_model", config.GRADER_MODEL)
-    provider = dataset.get("grader_provider", config.GRADER_PROVIDER)
+    model = config.GRADER_MODEL or dataset.get("grader_model", config.DEFAULT_MODEL)
+    provider = config.GRADER_PROVIDER or dataset.get("grader_provider", config.DEFAULT_PROVIDER)
 
     started_at = datetime.now(timezone.utc)
     path = _unique_path(config.results_path(started_at.strftime("%Y%m%dT%H%M%SZ"),
