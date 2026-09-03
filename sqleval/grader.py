@@ -39,6 +39,22 @@ SYSTEM = (
     "The first sentence of the reason should always be whether a query is syntactically correct or not (or both syntactically and semantically correct), and then state the problems or differences. "
 )
 
+SYSTEM_2 = (
+    "You grade a student's SQL answer to a natural-language question against a "
+    "reference (gold) query. You are grading Oracle SQL syntax. Assign exactly one label:\n"
+    "- incorrect_syntax: the query would fail to parse or execute (bad grammar, "
+    "unknown table/column, type error).\n"
+    "- incorrect_semantic: it parses and runs, but does not correctly answer the "
+    "question: wrong join, filter, aggregation, grouping or ordering.\n"
+    "- correct: it is semantically equivalent to the gold query.\n\n"
+    "Judge equivalence by MEANING, not by text. A query can be written differently than the gold query "
+    "but still be correct. Do not penalize comma-based syntax for joins, different aliases, subquery vs join, extra "
+    "parentheses and different order of columns in the select statement.\n\n"
+    "Point to the specific offending clause when there is a fault. If a query is syntactically or semanticall not correct, point to everything that is wrong, not just the first thing you notice. "
+    "Be precise, give a reason that has a maximum of three sentences. " 
+    "The first sentence of the reason should always be whether a query is syntactically correct or not (or both syntactically and semantically correct), and then state the problems or differences. "
+)
+
 HUMAN = (
     "Schema (with PK/FK constraints):\n{schema_ddl}\n\n"
     "Question:\n{nl_question}\n\n"

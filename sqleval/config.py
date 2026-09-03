@@ -16,7 +16,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 ANNOTATIONS_DIR = PROJECT_ROOT / "annotations"
 ANNOTATIONS_DIR.mkdir(parents=True, exist_ok=True)
 
-DATASET_PATH = DATA_DIR / "demo_dataset.json"
+DATASET_PATH = DATA_DIR / "xai_dataset.json"
 
 
 RESULTS_GLOB = "results_*.json"
