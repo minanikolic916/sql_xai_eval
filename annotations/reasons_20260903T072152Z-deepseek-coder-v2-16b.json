@@ -665,7 +665,8 @@
       "submission_query": "CREATE VIEW MEMBERS AS SELECT NAME, SURNAME, AVG(DURATION) FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID GROUP BY NAME, SURNAME;",
       "human_reason": "The query is not syntactically correct because the alias for the average aggregation function does not exist. The group by also needs id because otherwise it won't be unique. The order by clause is missing. The age condition is also missing. The alias for the view is  different, but that is not problematic.",
       "llm_reason": "The student's query has several issues that prevent it from parsing or executing correctly. Firstly, the SELECT statement in the student's query does not include a condition to filter gym members older than 30 years, which is necessary for the requested view. Secondly, the GROUP BY clause in the student's query only includes NAME and SURNAME columns without their IDs, which would lead to an incorrect aggregation since it doesn't group by all relevant attributes that define unique gym members. Lastly, there is no ORDER BY clause specified, making it unclear how the results should be sorted according to the instructions.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the alias for the average aggregate function is missing."
     },
     {
       "submission_id": "s4_q1_sub3",
@@ -675,7 +676,8 @@
       "submission_query": "CREATE VIEW MEMBER_STATISTICS AS SELECT GYM_MEMBER.NAME || ' ' ||  GYM_MEMBER.SURNAME as name_surname FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE AGE > 30 ORDER BY GYM_MEMBER.SURNAME DESC;",
       "human_reason": "The query is syntactically correct, but missing the average aggregate function, meaning that the group by clause is also missing. The alias for the view is different, but that is also valid.",
       "llm_reason": "The student's query does not include the AVG(DURATION) in the SELECT clause, which is necessary to calculate the average duration of a workout as per the question requirements. This results in an incorrect semantic error because the view will not provide the requested average workout duration information.",
-      "cause": null
+      "cause": "parital",
+      "cause_reason": "The model does not state that the group by clause is missing."
     },
     {
       "submission_id": "s4_q1_sub4",
@@ -685,7 +687,8 @@
       "submission_query": "CREATE VIEW MEMBER_STATS AS SELECT GYM_MEMBER.NAME, GYM_MEMBER.SURNAME, AVG(DURATION) AS workout_avg FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID GROUP BY GYM_MEMBER.ID, GYM_MEMBER.NAME, GYM_MEMBER.SURNAME ORDER BY GYM_MEMBER.SURNAME;",
       "human_reason": "The query is syntactically correct, but missing the age condition and the columns for name and surname are not displayed as a single column. The order direction is not specified, meaning that its ascending by default (descending was specified in the problem statement).",
       "llm_reason": "The student's query does not correctly answer the question as it fails to filter gym members older than 30 years and calculates the average duration of workouts without considering age, which leads to an incorrect result. The gold query includes a WHERE clause to filter gym members based on their age (AGE > 30), while the student's query does not include any filtering for age. Additionally, the student's query incorrectly aliases AVG(DURATION) as workout_avg instead of avg_workout_duration, which is semantically incorrect.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the name and surname columns are not displayed as one. It also does not state that the order direction is not specified. It falsely states that the different alias for average is problematic."
     },
     {
       "submission_id": "s4_q1_sub5",
@@ -695,7 +698,7 @@
       "submission_query": "CREATE OR REPLACE VIEW DATA_MEMBERS AS SELECT GYM_MEMBER.NAME || ' ' || GYM_MEMBER.SURNAME as name_surname, AVG(DURATION) AS avg_stats FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE AGE > 30 GROUP BY GYM_MEMBER.ID, GYM_MEMBER.NAME, GYM_MEMBER.SURNAME ORDER BY GYM_MEMBER.SURNAME DESC;",
       "human_reason": "The query is both syntactically and semantically correct, but the create or replace view syntax was used, which is also correct. The table joins are implemented using the from and where clauses, which is also valid. The alias for the view is different, but that is valid.",
       "llm_reason": "The student's query is syntactically correct and semantically equivalent to the gold query. Both queries parse and execute without errors, and they both create a view that lists the name and surname of gym members concatenated with a space, along with the average duration of their workouts. The selection criteria for age greater than 30 years, grouping by member ID, name, and surname, and ordering by surname in descending order are all present in both queries.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q2_sub1",
@@ -705,7 +708,8 @@
       "submission_query": "UPDATE PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE COACH.ID IN (SELECT COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH.ID WHERE DURATION > 30 GROUP BY COACH.ID);",
       "human_reason": "The query is not syntactically correct because the SET and UPDATE clauses are not used properly (the SET is missing, and the UPDATE should not be used to specify the table in which the update happens). The inner query does not have a having count clause, just the group by and the part regarding the coaches that didn't have a grade lower than three isn't implemented.",
       "llm_reason": "The student's query has multiple issues. Firstly, the syntax for updating the provision percentage is incorrect; it should be 'UPDATE COACH SET PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE COACH.ID IN ...'. Secondly, there is a typo in the subquery where it incorrectly references WORKOUT as WORKOUT.ID instead of WORKOUT.COACH_ID. This results in incorrect syntax and prevents the query from running.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model did not identify that the inner query missed the having count as well as the part of the query in regards to a grade lower than 3."
     },
     {
       "submission_id": "s4_q2_sub2",
@@ -715,7 +719,8 @@
       "submission_query": "UPDATE COACH SET PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE COACH.ID IN (SELECT COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID WHERE DURATION > 30 AND GRADE >=3 GROUP BY COACH.ID HAVING COUNT(*) >= 5);",
       "human_reason": "The query is syntactically correct but falsely combined the conditions for the workout duration and grade in the same part of the query.",
       "llm_reason": "Both the student's query and the gold query parse and execute correctly, targeting the same set of coach IDs to update the provision percentage. The main differences are in syntax and minor details but do not affect the logical outcome. The student's query is syntactically correct and semantically equivalent to the gold query as it filters coaches based on having at least five workouts longer than 30 minutes and not having any workout with a grade lower than 3, which aligns with the provided conditions.",
-      "cause": null
+      "cause": "different",
+      "cause_reason":"The model did not identify that the query combined the two conditions falsely."
     },
     {
       "submission_id": "s4_q2_sub3",
@@ -725,7 +730,7 @@
       "submission_query": "UPDATE COACH SET PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE COACH.ID IN ( SELECT COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID WHERE GRADE >= 3);",
       "human_reason": "The query is syntactically correct but missing the part of the query regarding the at least five workouts longer than 30 minutes.",
       "llm_reason": "The student's query does not correctly filter coaches based on the conditions specified in the question. The gold query requires that a coach has at least five workouts longer than 30 minutes and hasn't had any workout with a grade lower than 3. The student's query only checks for workouts with grades greater than or equal to 3, which does not meet the requirement of having no workout with a grade lower than 3.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q2_sub4",
@@ -735,7 +740,8 @@
       "submission_query": "UPDATE COACH SET PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE ID IN (SELECT ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID WHERE DURATION > 30 AND GRADE >= 3);",
       "human_reason": "The query is not syntactically correct because the id column is ambiguous. The inner query is not correct because all of the conditions are combined and there is no grouping and using the having count clause.",
       "llm_reason": "The student's query does not correctly filter coaches based on the conditions specified in the question. The original gold query uses a combination of JOIN, GROUP BY, HAVING, and MINUS to ensure that only those coaches with at least five workouts longer than 30 minutes are considered, and these must be filtered out if they have any workout with a grade lower than 3. The student's query does not correctly implement this logic; it incorrectly assumes that filtering by DURATION > 30 AND GRADE >= 3 in the JOIN condition will automatically satisfy both conditions needed for updating provision percentage.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not identify that the use of the id column is ambiguous."
     },
     {
       "submission_id": "s4_q2_sub5",
@@ -745,7 +751,7 @@
       "submission_query": "UPDATE COACH SET PROVISION_PERCENTAGE = PROVISION_PERCENTAGE + 5 WHERE COACH.ID IN (SELECT COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID WHERE DURATION > 30 GROUP BY COACH.ID HAVING COUNT(*) >= 5) AND COACH.ID NOT IN ( SELECT COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID WHERE GRADE >= 3);",
       "human_reason": "The query is both syntactically and semantically correct but the minus clause was not used which is valid because a different approach was implemented.",
       "llm_reason": "The student's SQL query is semantically equivalent to the gold standard query. Both queries use a correlated subquery to filter coaches based on their workout records, ensuring that only those with at least five workouts longer than 30 minutes and without any workout having a grade lower than 3 are selected for updating the provision percentage. The main difference lies in syntax but not in meaning: both queries correctly join the COACH table with the WORKOUT table to filter based on conditions related to duration and grade, then update the PROVISION_PERCENTAGE column accordingly.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q3_sub1",
@@ -755,7 +761,7 @@
       "submission_query": "DELETE FRM WORKOUT WHERE GYM_MEMBER_ID IN (SELECT GYM_MEMBER.ID FROM GYM_MEMBER WHERE AGE > 20);",
       "human_reason": "The query is not syntactically correct because from is misspeled. The inner query is also not valid, just the gym members older than 20 years are specified.",
       "llm_reason": "The student's query has multiple issues. Firstly, there is a syntax error with the incorrect use of 'FRM' instead of 'FROM'. Secondly, it does not include the necessary join conditions to filter workouts by package price and count them based on gym members meeting the criteria. The gold query correctly joins all required tables, filters for age greater than 20 and package price less than 3500, groups by gym member ID to count occurrences, and then uses HAVING to ensure only those with at least three members are selected before deleting their workouts.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q3_sub2",
@@ -765,7 +771,8 @@
       "submission_query": "DELETE FROM WORKOUT WHERE WORKOUT.GYM_MEMBER_ID IN (SELECT GYM_MEMBER.ID FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID JOIN PACKAGE ON PACKAGE.ID = WORKOUT.PACKAGE_ID);",
       "human_reason": "The query is syntactically correct but missing the conditions regarding the member age and package price. There is also no group by and having clause.",
       "llm_reason": "The student's query does not include the necessary conditions to filter workouts by age and package price. The original question specifies that the gym members must be older than 20 years, and the package they attended a workout for must have had a price lower than 3500. The student's query lacks these specific conditions in the subquery, which is why it does not correctly answer the question.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model just mentions that the conditions are missing and does not explicitly state that the group by and having count are also missing."
     },
     {
       "submission_id": "s4_q3_sub3",
@@ -775,7 +782,7 @@
       "submission_query": "DELETE FROM WORKOUT WHERE WORKOUT.GYM_MEMBER_ID IN (SELECT GYM_MEMBER.ID FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE AGE > 20);",
       "human_reason": "The query is syntactically correct but missing a join in the inner query regarding the package table (also the condition regarding the package price). The group by and having count clauses are also not to be found.",
       "llm_reason": "The student's query does not correctly filter the workouts based on the package price condition. The gold query includes an additional join to the PACKAGE table and a more comprehensive selection criteria that filters for gym members older than 20 years and packages with a price lower than 3500, followed by grouping and having to ensure at least three such memberships exist. The student's query only considers age without filtering based on package price, which is not equivalent to the question's requirements.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q3_sub4",
@@ -785,7 +792,8 @@
       "submission_query": "DELETE FROM WORKOUT WHERE WORKOUT.GYM_MEMBER_ID IN (SELECT GYM_MEMBER.ID WHERE AGE > 20 AND PRICE < 3500 GROUP BY GYM_MEMBER.ID HAVING COUNT(*) >= 3);",
       "human_reason": "The query is not syntactically correct because it is missing the two joins between the three tables (gym member, package and workout tables). The group by and having count are used, but they do not make sense in this context where the joins are not previously implemented.",
       "llm_reason": "The student's query has a syntax error due to the incorrect placement of conditions in the subquery and lack of join between 'GYM_MEMBER' and 'WORKOUT'. The correct SQL requires that all joins are explicitly defined, especially since we need to filter based on both conditions (age > 20 and price < 3500) which involve columns from different tables. Additionally, the subquery in the student's query is missing a FROM clause, making it syntactically incorrect.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that a join regarding the package table is also missing."
     },
     {
       "submission_id": "s4_q3_sub5",
@@ -795,7 +803,7 @@
       "submission_query": "DELETE FROM WORKOUT WHERE WORKOUT.GYM_MEMBER_ID IN (SELECT GYM_MEMBER.ID FROM GYM_MEMBER, WORKOUT, PACKAGE WHERE GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID AND PACKAGE.ID = WORKOUT.PACKAGE_ID AND AGE > 20 AND PRICE < 3500 GROUP BY GYM_MEMBER.ID HAVING COUNT(*) >= 3);",
       "human_reason": "The query is both syntactically and semantically correct, the joins are implemented using the from and where combination which is also valid (comma syntax).",
       "llm_reason": "Both the student's and gold SQL queries are semantically equivalent. They both delete records from the WORKOUT table where the GYM_MEMBER_ID is in a subquery that selects IDs of gym members who attended workouts older than 20 years, have packages with a price lower than 3500, and this group has at least three members. The queries differ only in syntax: the student's query uses explicit join syntax (GYM_MEMBER, WORKOUT, PACKAGE) while the gold query uses implicit join syntax (JOIN ON). However, since SQL allows for equivalent expressions regardless of join syntax or style, both queries are correct.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q4_sub1",
@@ -805,7 +813,7 @@
       "submission_query": "SELECT COACH.ID, COACH.NAME FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID JOIN GYM_MEMBER ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID;",
       "human_reason": "The query is syntactically correct but missing the conditions regarding the height and status of gym members.",
       "llm_reason": "The student's query does not include the condition to filter gym members taller than 200 cm and with an active status. The additional condition 'WHERE height > 200 AND status LIKE 'active'' is missing from the student's query, which means it will return all workouts regardless of the gym member's height or status.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q4_sub2",
@@ -815,7 +823,7 @@
       "submission_query": "SELECT COACH.ID, COACH.NAME FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID JOIN GYM_MEMBER ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE height > 200 and status like 'active' GROUP BY COACH.ID, COACH.NAME HAVING COUNT(*) > 1;",
       "human_reason": "The query is syntactically correct but has a group by with a having count clause that specifies the wrong number of workouts (the problem statement said at least one, not greater than one).",
       "llm_reason": "The student query includes a GROUP BY and HAVING clause that is not present in the gold query. The gold query does not require grouping or having any specific count, as it directly filters for active gym members taller than 200 cm and joins with coaches based on workout records. The incorrect semantic issue arises from the unnecessary use of GROUP BY and HAVING which changes the meaning and result of the query.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q4_sub3",
@@ -825,7 +833,8 @@
       "submission_query": "SELECT ID, NAME FROM COACH, WORKOUT, GYM_MEMBER WHERE height > 200 and status like 'active';",
       "human_reason": "The query is syntactically not correct because the column names used are ambiguous (coach and gym member have the id and name columns which are the same).",
       "llm_reason": "The student's query is incorrect because it lacks the necessary joins to connect the `GYM_MEMBER` table with the `COACH` table. The correct syntax should include explicit join conditions between `WORKOUT` and `GYM_MEMBER`, and then from `WORKOUT` to `COACH`. Additionally, the student's query has a syntax error due to the incorrect use of commas instead of proper JOIN syntax.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model did not state that the id column is ambiguous."
     },
     {
       "submission_id": "s4_q4_sub4",
@@ -835,7 +844,7 @@
       "submission_query": "SELECT coach.ID, coach.NAME FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID JOIN GYM_MEMBER ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER.id WHERE height > 200 and status like 'active';",
       "human_reason": "The query is not syntactically correct because wrong column name is specified (for the id of the gym member in the workout table).",
       "llm_reason": "The student's query contains a syntax error in the join condition with the GYM_MEMBER table. The correct column name for joining on is WORKOUT.GYM_MEMBER_ID, but it appears as WORKOUT.GYM_MEMBER.id which is incorrect due to the missing underscore between 'GYM_MEMBER' and 'id'. This results in a syntax error because SQL does not recognize the column reference without the correct naming convention.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s4_q4_sub5",
@@ -845,7 +854,8 @@
       "submission_query": "SELECT COACH.NAME, COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID JOIN GYM_MEMBER ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE height > 200 and status like 'active' GROUP BY COACH.ID, COACH.name;",
       "human_reason": "The query is both syntactically and semantically correct, the column order in the select statement is different, but that is not a problem. There is an unnecessary group by clause, but that does not interfere with the correctness of the query.",
       "llm_reason": "The student query includes a `GROUP BY` clause which is not present in the gold query. Additionally, the order of columns selected in the output does not match the gold query, but this alone would not be considered incorrect syntax as long as the data returned is correct.",
-      "cause": null
+      "cause": "parital",
+      "cause_reason": "The model does not state that the group by does not change the meaning of the student query."
     },
     {
       "submission_id": "s5_q1_sub1",
@@ -855,7 +865,8 @@
       "submission_query": "SELECT MEAL.NAME, MEAL_TYPE, NUMBER_OF_CALORIES FROM MEAL JOIN ORDERS ON MEAL.ID = ORDERS.MEAL_ID WHERE GLUTEN = 'no' AND PAYMENT_METHOD = 'card' ORDER BY NUMBER_OF_CALORIES;",
       "human_reason": "The query is syntactically correct but is missing the count aggregation function and subsequently the group by. The ordering is just done by one criteria, not two.",
       "llm_reason": "The student's query does not correctly answer the question as it fails to include a count of order occurrences for each meal. The gold query includes a COUNT(*) AS TOTAL_MEALS which is necessary to list the total number of order occurrences, and it also sorts the results by both the number of calories (ascending) and the type of meal (descending), which is not present in the student's query.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not explicitly state that the group by is missing (but states count)."
     },
     {
       "submission_id": "s5_q1_sub2",
@@ -865,7 +876,8 @@
       "submission_query": "SELECT MEAL.NAME, MEAL_TYPE, NUMBER_OF_CALORIES,  SUM(MEAL.ID) AS TOTAL_MEALS FROM MEAL JOIN ORDERS ON MEAL.ID = ORDERS.MEAL_ID GROUP BY MEAL.ID, MEAL.NAME, MEAL_TYPE, NUMBER_OF_CALORIES;",
       "human_reason": "The query is syntactically correct, but using sum instead of count as the aggregation function. The conditions regarding the gluten and payment method are missing. The ordering is also missing.",
       "llm_reason": "The student's query has a fundamental issue with the aggregation function used. The original question requires counting the total number of order occurrences for meals that are gluten-free and paid by card, which means using COUNT(*) to count the number of orders. In the student's query, SUM(MEAL.ID) is used instead of COUNT(*), which does not correctly answer the question as it incorrectly assumes a sum of meal IDs without considering distinct occurrences of meals in orders. This results in an incorrect semantic issue.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model dit not state that the conditions and order are missing."
     },
     {
       "submission_id": "s5_q1_sub3",
@@ -875,7 +887,8 @@
       "submission_query": "SELECT NAME, TYPE FROM MEAL JOIN ORDERS ON MEAL.ID = ORDERS.MEAL_ID WHERE GLUTEN = 'no' AND PAYMENT_METHOD = 'card' ORDER BY TYPE DESC;",
       "human_reason": "The query is not syntactically correct, the wrong column name was specified (type instead of meal type). The count and group by are missing and the order is done by a single column and not two as specified.",
       "llm_reason": "The student query is missing the necessary aggregation and grouping to count the total number of order occurrences for each meal. It only selects the name, type from the MEAL table without any reference to ORDERS or considering the conditions specified in the question. The correct semantic issue lies in not aggregating the counts of orders correctly.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not specify that there was a typo regarding the meal type column. It also does not specify that the ordering is not being done in regards to both columns. It states that there is not a reference to the orders table which is not true."
     },
     {
       "submission_id": "s5_q1_sub4",
@@ -885,7 +898,8 @@
       "submission_query": "SELECT MEAL.NAME, MEAL_TYPE WHERE GLUTEN = 'no' AND PAYMENT_METHOD = 'card' ORDER BY NUMBER_OF_CALORIES;",
       "human_reason": "The query is not syntactically correct, there is no from clause. There is no count and group by and the order is done in terms of a single column.",
       "llm_reason": "The student's query is incorrect because it misses the GROUP BY clause, which is necessary for counting the occurrences of each meal. Additionally, there is a syntax error in the WHERE clause where 'WHERE GLUTEN = 'no'' should be 'AND GLUTEN = 'no''. The ORDER BY NUMBER_OF_CALORIES; statement at the end is also incorrect because it does not specify which column to order by after the number of calories. Furthermore, the query lacks a SELECT list that includes all columns from the GROUP BY clause or an aggregate function like COUNT(*). Finally, there is no mention of MEAL_TYPE in either the SELECT list or the ORDER BY clause.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not specify that the joins and from clause are missing. It also incorrectly states that there is no meal_type in the select statement which is not true."
     },
     {
       "submission_id": "s5_q1_sub5",
@@ -895,7 +909,8 @@
       "submission_query": "SELECT MEAL.NAME, MEAL_TYPE, NUMBER_OF_CALORIES,  COUNT(*) FROM MEAL, ORDERS WHERE MEAL.ID = ORDERS.MEAL_ID AND GLUTEN LIKE 'no' AND PAYMENT_METHOD LIKE 'card' GROUP BY MEAL.ID, MEAL.NAME, MEAL_TYPE, NUMBER_OF_CALORIES ORDER BY NUMBER_OF_CALORIES ASC, MEAL_TYPE DESC;",
       "human_reason": "The query is both syntactically and semantically correct, the from and where clauses were used for implementing joins, which is a valid approach. The LIKE operator was used instead of = which is also correct.",
       "llm_reason": "Both the student query and the gold query parse and execute correctly in Oracle SQL. They both join the MEAL and ORDERS tables on the meal ID, filter for gluten-free meals paid with a card, group by meal details including type and number of calories, and order the results by number of calories ascending and meal type descending. The syntax differences are minor: the gold query uses JOIN instead of comma syntax for joins, and it uses 'no' in lowercase without quotes around the literal values for gluten and payment method conditions; however, these differences do not affect the correctness or meaning of the queries.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model states that the literal no was used without quotes which is not correct."
     },
     {
       "submission_id": "s5_q2_sub1",
@@ -905,7 +920,7 @@
       "submission_query": "DELETE FROM ORDERS WHERE ORDERS.ID IN (SELECT ORDERS.ID FROM ORDERS JOIN WAITER ON ORDERS.WAITER_ID = WAITER.ID WHERE PRICE > 2500 AND SALARY > 60000);",
       "human_reason": "The query is syntactically correct but is missing the group by and having count clauses.",
       "llm_reason": "The student's query does not include the GROUP BY and HAVING clauses necessary to filter orders that have been carried out at least twice by waiters with a salary greater than 60000. The gold query correctly uses these clauses to ensure only orders with more than one occurrence are deleted, which is not present in the student's query.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s5_q2_sub2",
@@ -915,7 +930,8 @@
       "submission_query": "DELETE FROM ORDERS WHERE ORDERS.ID IN (SELECT ORDERS.ID FROM ORDERS JOIN WAITER ON ORDERS.WAITER_ID = WAITER.ID WHERE PRICE > 2500 GROUP BY ORDERS.ID HAVING COUNT(*) > 1);",
       "human_reason": "The query is syntactically correct but is missing the condition regarding the waiter salary.",
       "llm_reason": "The student's query is missing the condition in the HAVING clause that checks for orders carried out at least twice by waiters with a salary greater than 60000. This results in an incorrect semantic because it might delete orders that do not meet the specified criteria, leading to potential data loss or unintended deletions.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model incorrectly states that the condition is missing in the having clause (it is missing in the where clause)."
     },
     {
       "submission_id": "s5_q2_sub3",
@@ -925,7 +941,8 @@
       "submission_query": "DELETE FRM ORDERS WHERE ORDERS.ID IN (SELECT ORDERS.ID FROM ORDERS JOIN WAITER ON ORDERS.WAITER_ID = WAITER.ID WHERE PRICE > 2500 AND SALARY > 60000);",
       "human_reason": "The query is not syntactically correct because the FROM clause is misspelled. The group by and having count are also missing.",
       "llm_reason": "The student's query contains a syntax error due to the incorrect use of 'FRM' instead of 'FROM'. This is an obvious mistake that prevents the query from being parsed or executed correctly.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the group by and having clauses are also missing, it just focused on the syntax error."
     },
     {
       "submission_id": "s5_q2_sub4",
@@ -935,7 +952,8 @@
       "submission_query": "DELETE FROM ORDERS WHERE ID IN (SELECT ID FROM ORDERS JOIN WAITER ON ORDERS.WAITER_ID = WAITER.ID WHERE PRICE > 2500 AND SALARY > 60000 GROUP BY ORDERS.ID HAVING COUNT(*) > 1);",
       "human_reason": "The query is not syntactically correct because the id column is ambiguous and the table name needs to be stated (in the inner query).",
       "llm_reason": "Both the student's and gold SQL queries are syntactically correct and semantically equivalent. They both delete records from the 'ORDERS' table where the order ID is in a subquery that selects IDs from the joined tables 'ORDERS' and 'WAITER'. The condition filters orders with a price greater than 2500 and considers only those orders carried out by waiters with a salary greater than 60000. The subqueries use GROUP BY and HAVING for filtering based on count of order IDs, which is equivalent in both queries.",
-      "cause": null
+      "cause": "different",
+      "cause_reason": "The model does not state that the id column is ambiguous."
     },
     {
       "submission_id": "s5_q2_sub5",
@@ -945,7 +963,8 @@
       "submission_query": "DELETE FROM ORDERS WHERE ORDERS.ID IN (SELECT ORDERS.ID FROM ORDERS, WAITER WHERE ORDERS.WAITER_ID = WAITER.ID AND PRICE > 2500 AND SALARY > 60000 GROUP BY ORDERS.ID HAVING COUNT(*) > 1);",
       "human_reason": "The query is both syntactically and semantically correct, the join is implemented using from and where clauses which is also valid.",
       "llm_reason": "Both the student's and gold SQL queries are semantically equivalent. They both delete orders that have been carried out at least twice by waiters with a salary greater than 60000, considering only orders with a price greater than 2500. The main differences between the two queries are syntax: the student query uses a comma (,) instead of JOIN for joining tables, which is syntactically incorrect but does not affect the semantic meaning of the query.",
-      "cause": null
+      "cause": "different",
+      "cause_reason": "The model incorrectly states that the comma-based syntax for joins is not valid and that is not true."
     },
     {
       "submission_id": "s5_q3_sub1",
@@ -955,7 +974,8 @@
       "submission_query": "UPDATE GUEST SET REGULAR_CUSTOMERS = 'yes' WHERE GUEST.ID IN (SELECT GUEST_ID FROM ORDERS JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID WHERE GLUTEN = 'no');",
       "human_reason": "The query is syntactically correct, but missing the group by and having count statements.",
       "llm_reason": "The student's query does not correctly filter guests based on the count of gluten-free meals they have ordered. The gold query uses `HAVING COUNT(*) < 3` to ensure that only those guests with less than three gluten-free meals are considered, while the student's query lacks this condition and will incorrectly update the regular customer status for all guests who have ordered at least one gluten-free meal.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the group by statement is missing."
     },
     {
       "submission_id": "s5_q3_sub2",
@@ -965,7 +985,7 @@
       "submission_query": "UPDATE GUEST SET REGULAR_CUSTOMERS = 'yes' WHERE GUEST.ID IN (SELECT GUEST_ID FROM ORDERS JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID GROUP BY GUEST_ID);",
       "human_reason": "The query is syntactically correct, but missing the condition regarding the gluten free meals as well as the having count statement.",
       "llm_reason": "The student's query does not correctly filter guests based on the number of gluten-free meals they have ordered. The gold query uses a HAVING clause to count the number of gluten-free meals (indicated by GLUTEN LIKE 'no') for each guest and filters those with less than three such meals. In contrast, the student's query does not include any condition related to gluten-free meals; it simply counts all orders per guest without considering the type of meal ordered.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s5_q3_sub3",
@@ -975,7 +995,8 @@
       "submission_query": "UPDATE GUEST WHERE ID IN (SELECT GUEST_ID FROM ORDERS JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID WHERE GLUTEN LIKE 'no');",
       "human_reason": "The query is syntactically not correct because the set clause after the update is missing. The group by and having count statements are missing.",
       "llm_reason": "The student's query has a syntax error due to the incorrect use of the UPDATE statement without specifying which column or table to update. The correct usage should include SET and possibly WHERE clauses, as shown in the gold SQL.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the group by and having clauses are missing, it just focuses on the syntax error."
     },
     {
       "submission_id": "s5_q3_sub4",
@@ -985,7 +1006,8 @@
       "submission_query": "UPDATE GUESTS SET REGULAR_CUSTOMERS = 'yes' WHERE GUEST.ID = (SELECT GUEST_ID FROM ORDERS JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID);",
       "human_reason": "The query is not syntactically correct because the wrong table name is specified (guests and not guest). Guest id is being compared with the = operator and not IN. The condition regarding gluten free meals, the group but as well as having count statements are missing.",
       "llm_reason": "The student's query has multiple issues. Firstly, the table name 'GUESTS' is incorrectly capitalized and does not match the schema provided (it should be 'GUEST'). Secondly, the condition in the WHERE clause for updating guest records is incorrect; it uses a single ID instead of being within parentheses to filter by IDs from the subquery results. Additionally, there is no mention of setting REGULAR_CUSTOMERS to 'yes' after the update operation.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not state that the group by and having count statements are missing. It does not mention that the condition regarding the gluten free meals is missing. It falsely states that there is no mention of setting the regular customers column."
     },
     {
       "submission_id": "s5_q3_sub5",
@@ -995,7 +1017,7 @@
       "submission_query": "UPDATE GUEST SET REGULAR_CUSTOMERS = 'yes' WHERE GUEST.ID IN (SELECT GUEST_ID FROM ORDERS JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID WHERE GLUTEN = 'no' GROUP BY GUEST_ID HAVING COUNT(*) < 3);",
       "human_reason": "The query is both syntactically and semantically correct, the = operator is used instead of LIKE which is also a valid approach.",
       "llm_reason": "Both the student and gold SQL queries are semantically equivalent. They both update the regular customer status for guests who have ordered less than three gluten-free meals by using a subquery to filter guest IDs based on the condition specified in the HAVING clause, which counts the number of gluten-free meals each guest has ordered. The main difference is that the gold query uses 'LIKE' with '%no%' to match gluten-free meals, while the student query directly compares GLUTEN values using '=' for no. However, since 'no' in SQL should be treated as a literal string and not require pattern matching (as indicated by the schema constraints), both queries are correct despite slight syntax differences.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s5_q4_sub1",
@@ -1005,7 +1027,7 @@
       "submission_query": "SELECT WAITER.NAME, WAITER.SURNAME FROM WAITER JOIN ORDERS ON WAITER.ID = ORDERS.WAITER_ID JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID;",
       "human_reason": "The query is syntactically correct but missing the conditions for the number of calories and salary.",
       "llm_reason": "The student's query does not include the conditions to filter waiters based on salary or meals based on calorie content. The gold query includes additional WHERE clauses that ensure only those waiters serving high-calorie meals are selected, which is a requirement for this question.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s5_q4_sub2",
@@ -1015,7 +1037,8 @@
       "submission_query": "SELECT WAITER.NAME, WAITER.SURNAME FROM WAITER JOIN ORDERS ON WAITER.ID = ORDERS.WAITER_ID WHERE SALARY > 50000;",
       "human_reason": "The query is syntactically correct but missing a join to the meal table and the condition regarding the number of calories.",
       "llm_reason": "The student's query does not correctly answer the question as it fails to filter for high calorie meals, which is a requirement in the original question. The gold query includes an additional condition on the meal calories using the MEAL table, ensuring that only waiters serving high calorie meals are considered. The student's query lacks this crucial condition and therefore provides an incorrect answer.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model does not explicitly state that the join to the meal table is missing."
     },
     {
       "submission_id": "s5_q4_sub3",
@@ -1025,7 +1048,7 @@
       "submission_query": "SELECT WAITER FROM WAITER JOIN ORDERS ON WAITER.ID = ORDERS.WAITER_ID JOIN MEAL ON MEAL.ID = ORDERS.MEAL_ID WHERE NUMBER_OF_CALORIES > 700 AND SALARY > 50000;",
       "human_reason": "The query is syntactically not correct because the wrong column name was specified in the select statement.",
       "llm_reason": "The student's query is incorrect because it has a syntax error in the SELECT clause. The correct SQL should explicitly list the columns to be selected, but the student's query incorrectly uses 'WAITER' instead of specifying the column names from the WAITER table (e.g., WAITER.NAME and WAITER.SURNAME). This results in a syntax error because 'WAITER' is not recognized as a valid column name.",
-      "cause": null
+      "cause": "same"
     },
     {
       "submission_id": "s5_q4_sub4",
@@ -1035,7 +1058,8 @@
       "submission_query": "SELECT WAITER.NAME, WAITER.SURNAME WHERE NUMBER_OF_CALORIES > 700 AND SALARY > 50000;",
       "human_reason": "The query is syntactically not correct because the table joins are not specified but the columns are used.",
       "llm_reason": "The student's query is incorrect because it lacks the necessary JOIN operations between tables to correlate waiter and order information with meal calorie content. Additionally, the syntax for selecting columns in SQL requires using 'SELECT' followed by the list of column names, not just a bare 'WHERE' clause without 'SELECT'. The correct approach would be to join the 'waiter', 'orders', and 'meal' tables as specified in the gold query.",
-      "cause": null
+      "cause": "partial",
+      "cause_reason": "The model states that there is not a select statement and that is false."
     },
     {
       "submission_id": "s5_q4_sub5",
@@ -1045,7 +1069,7 @@
       "submission_query": "SELECT WAITER.NAME, WAITER.SURNAME FROM WAITER, ORDERS, MEAL WHERE WAITER.ID = ORDERS.WAITER_ID AND MEAL.ID = ORDERS.MEAL_ID AND NUMBER_OF_CALORIES > 700 AND SALARY > 50000;",
       "human_reason": "The query is both syntactically and semantically correct, the joins are implemented using the from and where clause which is also valid (comma based syntax).",
       "llm_reason": "Both the student's and gold SQL queries parse and execute correctly, despite using different syntax. The student's query uses comma-based join syntax which is equivalent to the more standard join syntax used in the gold query. Both queries filter for waiters earning more than 50000 who served at least one high calorie meal (more than 700 calories) by joining the waiter, orders, and meal tables appropriately. The main difference lies in the syntax but not in the logic or result of the queries.",
-      "cause": null
+      "cause": "same"
     }
   ]
 }
