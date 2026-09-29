@@ -1,3 +1,16 @@
-For running the pipeline: python -m seqleval.pipeline
-For running the metrics eval: python -m sqleval.metrics
-For instance annotation: python -m sqleval.annotate report 
+## Usage
+
+**Run the pipeline:**
+```bash
+python -m sqleval.pipeline
+```
+
+**Run the metrics evaluation:**
+```bash
+python -m sqleval.metrics
+```
+
+**Generate an instance annotation report:**
+```bash
+python -m sqleval.annotate report
+```
