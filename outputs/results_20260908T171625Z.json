@@ -1,8 +1,8 @@
 {
   "run_meta": {
-    "run_id": "20260902T165212Z-qwen2.5-coder-14b",
-    "started_at": "2026-09-02T16:52:12Z",
-    "finished_at": "2026-09-02T17:10:33Z",
+    "run_id": "20260908T171625Z-qwen2.5-coder-14b",
+    "started_at": "2026-09-08T17:16:25Z",
+    "finished_at": "2026-09-08T17:42:51Z",
     "model": "qwen2.5-coder:14b",
     "provider": "ollama",
     "temperature": 0.0,
@@ -38,7 +38,7 @@
   },
   "results": [
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q1",
       "submission_id": "s1_q1_sub1",
@@ -46,11 +46,11 @@
       "human_reason": "The query is syntactically correct, but there is no count function, no left join, just the inner join and the order is set to ascending and not descending.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query uses a JOIN instead of a LEFT JOIN, which means it will only include skies that have been rented at least once. Additionally, the COUNT(*) is not used to count occurrences in ski rent records, and the ORDER BY clause sorts the data in ascending order instead of descending.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The student query uses a JOIN instead of a LEFT JOIN, which means it will only include skies that have been rented at least once. Additionally, the student query incorrectly labels the count of occurrences as 'SKI_INFO' instead of counting the occurrences, and it sorts the results in ascending order instead of descending.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q1",
       "submission_id": "s1_q1_sub2",
@@ -58,11 +58,11 @@
       "human_reason": "The query is not syntactically correct, there is a problem with the group by clause, not all columns that appear in the select are present in the group by function (except the aggregate function of course). The order is not specified, meaning that it is automatically ascending and not descending.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It groups only by the manufacturer, which means it does not provide the count of occurrences for each specific ski model and length as required. Additionally, the ORDER BY clause is missing DESC to sort in descending order.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It groups only by MANUFACTURER, which means it does not provide the count of occurrences for each combination of manufacturer, model, and length. Additionally, the ORDER BY clause is missing the DESC keyword, which should sort the data in descending order by the length of skies.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q1",
       "submission_id": "s1_q1_sub3",
@@ -70,11 +70,11 @@
       "human_reason": "The query is syntactically correct, but there is not a count function, no left join, just inner join and there isn’t a group by clause. In the select statement, a column regarding the ski model is also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the ski model in the SELECT clause and does not count the occurrences of each ski in the ski rent records. The GROUP BY clause is missing, which is necessary for counting the occurrences.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the ski model in the SELECT clause and does not count the occurrences of each ski in the ski rent records. It also does not group the results by manufacturer, ski model, and length.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q1",
       "submission_id": "s1_q1_sub4",
@@ -82,11 +82,11 @@
       "human_reason": " The query is not syntactically correct, there is a missing column in the select statement, missing count aggregation function as well as missing the group by clause. The order is wrong, the sort by keyword is used and not the order by. The order is also not specified as descending, making it ascending by default.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the LENGTH column in the SELECT statement, nor does it count the occurrences of each ski model in the ski rent records. Additionally, it uses 'SORT BY' instead of 'ORDER BY'.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the LENGTH column in the SELECT statement, nor does it count the occurrences of each ski in the ski rent records. Additionally, it uses 'SORT BY' instead of 'ORDER BY'.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q1",
       "submission_id": "s1_q1_sub5",
@@ -94,11 +94,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the alias in the select is differently named, and the column ordering in the select statement is different.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It lists ski manufacturers, models, and lengths along with the number of occurrences in the ski rent records for all skies in the database, sorted by length in descending order.",
+      "llm_reason": "The query is both syntactically and semantically correct. It lists ski manufacturers, models, and lengths, along with the number of occurrences in the ski rent records for all of the skies in the database, and sorts the data in descending order by the length of skies. The differences in column order in the SELECT and GROUP BY clauses do not affect the meaning of the query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q2",
       "submission_id": "s1_q2_sub1",
@@ -106,11 +106,11 @@
       "human_reason": "The syntax is okay, but the concatenation in the select statement is missing blank spaces, the condition regarding the rental date is missing and the ordering is opposite (it should be ascending). The alias is different, but that is not problematic. ",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query is missing the filter condition for rentals after the year 2022, and it orders the skiers by name in descending order instead of ascending order.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query does not filter skiers who have rented skies after the year 2022, and it orders the skiers by name in descending order instead of ascending order.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q2",
       "submission_id": "s1_q2_sub2",
@@ -118,11 +118,11 @@
       "human_reason": "The concatenation in the select statement is not valid syntax, it can take just two parameters, not three like here. The ordering is missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The CONCAT function is used incorrectly; it should have at least two arguments and requires commas to separate them. Additionally, the ORDER BY clause is missing from the student's query.",
+      "llm_reason": "The query has incorrect syntax. The CONCAT function is used incorrectly; it should have at least two arguments and requires commas to separate them. Additionally, the query does not include the ORDER BY clause as required by the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q2",
       "submission_id": "s1_q2_sub3",
@@ -130,11 +130,11 @@
       "human_reason": "The select statement is missing the surname column and the two conditions regarding the rental date and skier age are also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not filter skiers older than 25 and does not check if the rental date is after December 31, 2022.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not filter skiers older than 25 and does not filter ski rentals after the year 2022. The WHERE clause is missing in the student's query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q2",
       "submission_id": "s1_q2_sub4",
@@ -142,11 +142,11 @@
       "human_reason": "The select statement has a wrong concatenation operator +, the where statement with the join condition is missing, the condition regarding the rental date is not valid, it does not compare the date value but the actual number.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The use of '+' for string concatenation is not valid in Oracle SQL, which requires '||'. Additionally, the join condition is missing, and the date format in the WHERE clause should be a string with the correct format ('YYYY-MM-DD').",
+      "llm_reason": "The query has incorrect syntax. The use of '+' for string concatenation is incorrect in Oracle SQL; it should be '||'. Additionally, the join between SKIER and SKI_RENT is not specified correctly; it should use an explicit JOIN clause. The date format in the WHERE clause is also incorrect; it should be a string in the format 'DD-MON-YYYY' or use the TO_DATE function.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q2",
       "submission_id": "s1_q2_sub5",
@@ -154,11 +154,11 @@
       "human_reason": "The statement is both syntactically and semantically correct, it uses the concat function instead of the || operator, it specifies a different alias name and the ordering direction is not specified, but is ascending by default.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The join condition in the student's query is wrong: it joins the SKIER table with the SKI_RENT table on SKIER.ID = SKI_RENT.SKI_ID, which should be SKIER.ID = SKI_RENT.SKIER_ID. Additionally, the ORDER BY clause in the student's query does not specify ASC, although it is implied by default.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The join condition is incorrect: it joins the SKIER table with the SKI_RENT table on SKIER.ID = SKI_RENT.SKI_ID, which is wrong because SKI_RENT.SKI_ID should be joined with SKIES.ID, not SKIER.ID. Additionally, the ORDER BY clause is missing the ASC keyword, although this is not a critical error as ASC is the default.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q3",
       "submission_id": "s1_q3_sub1",
@@ -166,11 +166,11 @@
       "human_reason": "The query is syntactically correct but missing a condition regarding the price reduction as well as the having count statement.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It lacks a filter for price reduction and does not include a HAVING clause to ensure that only workers who have rented at least two pairs of skies with price reduction are listed.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It does not filter for rentals where the price reduction was 'yes' and does not include the HAVING clause to ensure that only workers who have rented at least two pairs of skies with price reduction are listed.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q3",
       "submission_id": "s1_q3_sub2",
@@ -178,11 +178,11 @@
       "human_reason": "The query is not syntactically correct because the order of the group by and where clause is not valid (the where clause needs to go before the group by).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The condition `WHERE PRICE_REDUCTION LIKE 'yes'` should be in the `HAVING` clause because it filters groups, not individual rows. Additionally, the `LIKE 'yes'` condition assumes that `PRICE_REDUCTION` is a string, which may not be accurate based on the schema description.",
+      "llm_reason": "The query is syntactically correct, but it does not correctly answer the question. The WHERE clause is incorrectly placed after the GROUP BY clause, which means it will not filter the records before grouping. This results in counting all rentals, regardless of whether they had a price reduction or not, and then checking if the count is greater than or equal to 2. The correct approach is to filter the records with a price reduction before grouping.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q3",
       "submission_id": "s1_q3_sub3",
@@ -190,11 +190,11 @@
       "human_reason": "The query is not syntactically correct because there is not a group by statement and there is a having clause. The question also states at least two, not greater than two.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query uses `HAVING COUNT(*) > 2`, which means workers must have rented more than two pairs of skies with price reduction, whereas the gold query uses `HAVING COUNT(*) >= 2`, meaning workers who have rented at least two pairs of skies with price reduction should be included.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query uses `HAVING COUNT(*) > 2`, which means it filters for workers who have rented more than two pairs of skies with price reduction, instead of at least two pairs as required by the question.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q3",
       "submission_id": "s1_q3_sub4",
@@ -202,11 +202,11 @@
       "human_reason": "The query is syntactically correct but the problem is regarding the at least two formulation, not greater than two. The joins are utilized using the comma syntax, which is also a valid approach.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query uses a condition `HAVING COUNT(*) > 2` instead of `HAVING COUNT(*) >= 2`, which means it will only return workers who have rented more than two pairs of skies with price reduction, whereas the correct query should include those who have rented exactly two pairs as well.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query uses a condition `HAVING COUNT(*) > 2` instead of `HAVING COUNT(*) >= 2`, which means it will only return workers who have rented more than two pairs of skies with price reduction, not at least two pairs as required by the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q3",
       "submission_id": "s1_q3_sub5",
@@ -214,11 +214,11 @@
       "human_reason": "The query is both syntactically and semantically correct. The column order in the select is different, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the WORKER and SKI_RENT tables on the worker_id, filters for rentals with price reduction, groups by worker's name, role, and type of employment, and checks if the count of such rentals is at least 2. The order of columns in the SELECT statement does not affect the meaning.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the WORKER and SKI_RENT tables on the worker_id, filters for rentals with price reduction, groups by worker's name, role, and type of employment, and checks if the count of such rentals is at least 2. The order of columns in the SELECT and GROUP BY clauses is different from the gold query, but this does not affect the meaning of the query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q4",
       "submission_id": "s1_q4_sub1",
@@ -226,11 +226,11 @@
       "human_reason": "The query is syntactically correct but using the wrong column and value for comparing the price reduction eligibility (the price reduction column should be used, not price).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct, but it does not correctly answer the question. The student's query filters skiers who rented skies with a specific price of 1, whereas the gold query filters skiers who rented skies manufactured by Nordica that were eligible for price reduction (PRICE_REDUCTION LIKE 'yes'). The condition on PRICE in the student's query is incorrect.",
+      "llm_reason": "The query is syntactically correct, but it does not correctly answer the question. The student's query filters skiers who rented skies with a specific price of 1, whereas the gold query filters skiers who rented skies manufactured by Nordica that were eligible for price reduction (PRICE_REDUCTION LIKE 'yes'). The student's query does not account for the price reduction condition.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q4",
       "submission_id": "s1_q4_sub2",
@@ -238,11 +238,11 @@
       "human_reason": "The query is syntactically correct but missing the conditions regarding the manufacturer and price reduction eligibility. The level is not set to advanced, it is just concatenated to the previous value of the level column, which is not the intended scenario.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the skier level by appending 'advanced' to the existing level instead of setting it to 'advanced'. Additionally, the WHERE clause in the subquery does not filter for skies manufactured by Nordica or eligible for price reduction.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query does not filter skiers who have rented skies manufactured by Nordica and eligible for price reduction. It also incorrectly concatenates 'advanced' to the existing skier level instead of setting it to 'advanced'.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q4",
       "submission_id": "s1_q4_sub3",
@@ -250,11 +250,11 @@
       "human_reason": "The query is not syntactically correct, the update keyword is misspelled and the set keyword is replaced with to. The inner query is missing joins and two conditions regarding the manufacturer and price reduction eligibility.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has a syntax error in the UPDATE statement. The correct keyword is 'UPDATE', but the student used 'UPDATING'. Additionally, the subquery does not filter for skies manufactured by Nordica or eligible for price reduction.",
+      "llm_reason": "The query has a syntax error in the UPDATE statement. The correct keyword is 'UPDATE' instead of 'UPDATING'. Additionally, the subquery does not filter for skies manufactured by Nordica or eligible for price reduction, which is required by the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q4",
       "submission_id": "s1_q4_sub4",
@@ -262,11 +262,11 @@
       "human_reason": "The query is syntactically not correct, the wrong table names for skies was specified (it needs to be SKIES not SKI). The wrong column name was used, it should be skier_level, not just level which is a reserved keyword in Oracle.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The column name 'LEVEL' in the UPDATE statement is not recognized; it should be 'SKIER_LEVEL'. Additionally, the table alias 'SKI' in the subquery should match the actual table name 'skies'.",
+      "llm_reason": "The query has incorrect syntax. The column 'LEVEL' in the UPDATE statement is not recognized. The correct column name should be 'SKIER_LEVEL' as per the schema. Additionally, the subquery uses 'SKI' instead of 'SKIES', which is a typo and would cause a parsing error.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s1",
       "question_id": "s1_q4",
       "submission_id": "s1_q4_sub5",
@@ -274,11 +274,11 @@
       "human_reason": "The query is both syntactically and semantically correct, a different syntax for joins was used (from and where), which is also valid. The LIKE operator was substituted with the = operator which is also a correct approach.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It updates the skier level to 'advanced' for those who have rented skies manufactured by Nordica with a price reduction, which matches the gold query's intended meaning.",
+      "llm_reason": "The query is both syntactically and semantically correct. It updates the skier level to 'advanced' for skiers who have rented at least one pair of skies manufactured by Nordica that were eligible for price reduction. The join condition and filter criteria are correctly implemented.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q1",
       "submission_id": "s2_q1_sub1",
@@ -286,11 +286,11 @@
       "human_reason": "The query is not syntactically correct, the ascending keyword is meant to be just asc. There is no count or group by and the contract length condition is missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the count of contracts for each property and does not filter properties that have been rented for more than three months.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the count of contracts for each property and does not filter properties that have been rented for more than three months. Additionally, the ORDER BY clause uses 'ASCENDING' instead of 'ASC'.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q1",
       "submission_id": "s2_q1_sub2",
@@ -298,11 +298,11 @@
       "human_reason": "The query is not syntactically correct, the count statement is being used without the group by. The order clause is also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It is missing the GROUP BY clause, which is necessary to aggregate the count of contracts for each property. Additionally, it lacks the ORDER BY clause required to sort the results by construction year in ascending order.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not include the GROUP BY clause, which is necessary to aggregate the data by listing name, location, and construction year. Additionally, the ORDER BY clause is missing, which is required to sort the data in ascending order by the construction year.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q1",
       "submission_id": "s2_q1_sub3",
@@ -310,11 +310,11 @@
       "human_reason": "The query is syntactically correct, but the semantics are only partially correct, count and group by are missing. The contract length condition is wrong, the minimum for filtering is three months, not two. The column order in the select statement is different, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It is missing the COUNT(*) aggregation to calculate the total number of appearances in the contracts for each property, and it orders by construction year without grouping by listing name, location, and construction year.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query does not include the total number of appearances in the contracts for every property, which is required by the question. Additionally, the student query filters properties rented for more than two months instead of more than three months as specified in the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q1",
       "submission_id": "s2_q1_sub4",
@@ -322,11 +322,11 @@
       "human_reason": "The query is syntactically correct, but there is a sum aggregation function instead of count and the column in the order by clause is wrong (it needs to be construction year, not location). The order is not specified, but it is ascending by default, so that is not problematic by itself.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. The student's query uses SUM(CONTRACT.ID) instead of COUNT(*) to calculate the total number of appearances in the contracts, which is incorrect. Additionally, the ORDER BY clause sorts by LOCATION instead of CONSTRUCTION_YEAR as required.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query uses SUM(CONTRACT.ID) instead of COUNT(*) to calculate the total number of appearances in the contracts, which is incorrect. Additionally, the ORDER BY clause is sorting by LOCATION instead of CONSTRUCTION_YEAR as required by the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q1",
       "submission_id": "s2_q1_sub5",
@@ -334,11 +334,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the alias for the count is not specified, but that was not explicitly mentioned in the problem statement. The order direction is also not specified, but is ascending by default.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the property and contract tables on the property_id, filters contracts with a length greater than three months, groups by listing_name, location, and construction_year, counts the number of contracts for each group, and orders the results by construction year in ascending order.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the PROPERTY and CONTRACT tables on the property_id, filters contracts with a length greater than 3 months, groups the results by listing_name, location, and construction_year, and counts the number of contracts for each group. The results are sorted in ascending order by construction year. The student's query is semantically equivalent to the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q2",
       "submission_id": "s2_q2_sub1",
@@ -346,11 +346,11 @@
       "human_reason": "The query is not syntactically correct because the table name realtor is misspelled.  The + operator is not a valid concatenation operator in Oracle SQL. The sum aggregation function with the group by is also missing. The condition regarding the rental date is not specified, just the salary.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The column concatenation operator is incorrect: it uses '+' instead of '||'. Additionally, the table name 'REALTR' is misspelled and does not match any of the provided table names in the schema.",
+      "llm_reason": "The query has incorrect syntax. The column concatenation operator is incorrect; it should be '||' instead of '+'. Additionally, the table name 'REALTR' is misspelled; it should be 'REALTOR'. The query also lacks the necessary filtering for rental dates after '31-DEC-2023' and the aggregation and grouping required to calculate the total price for each realtor.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q2",
       "submission_id": "s2_q2_sub2",
@@ -358,11 +358,11 @@
       "human_reason": "The query is syntactically correct, but the wrong aggregation function is used (count instead of sum). The group by should also include the realtor id. The alias for count is not used, but that is not explicitly stated so it’s not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct. However, it uses COUNT(PRICE) instead of SUM(PRICE), which results in counting the number of rental contracts rather than calculating the total price for all rentals.",
+      "llm_reason": "The query is syntactically correct, but it uses COUNT(PRICE) instead of SUM(PRICE) to calculate the total price for all rentals. This results in counting the number of contracts instead of summing the rental prices, which does not correctly answer the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q2",
       "submission_id": "s2_q2_sub3",
@@ -370,11 +370,11 @@
       "human_reason": "The query is not syntactically correct because an aggregate function (sum) is used without group by. The name, surname and salary are not displayed as a single column. Aliases aren't used, but that has not been explicitly said in the problem statement. The rental date comparison is not valid, the column is of type DATE, not INTEGER.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query does not concatenate the name and surname into a single column as required by the question, and it uses an integer comparison for the rental date instead of a date string.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The student query does not concatenate the name and surname into a single column as required by the question. Additionally, the date comparison in the WHERE clause is incorrect; it should be a date string, not a number. The GROUP BY clause is missing, which is necessary to aggregate the total price for each realtor.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q2",
       "submission_id": "s2_q2_sub4",
@@ -382,11 +382,11 @@
       "human_reason": "The query is syntactically correct, but the conditions for both salary and rental date have not been specified.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not filter the contracts to only include those with a rental date after December 31, 2023, as required by the question.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not filter the contracts to only include those with a rental date after December 31, 2023, as required by the question. Additionally, the column alias for the combined name and salary is 'REALTORS' instead of 'REALTOR_INFO', and the column alias for the total price is 'PROFIT' instead of 'REALTOR_PROFIT'.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q2",
       "submission_id": "s2_q2_sub5",
@@ -394,11 +394,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the aliases are not used, but that was not explicitly stated in the problem formulation.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the realtor and contract tables on the realtor_id, filters for contracts with a rental_date after '31-DEC-2023' and realtors with a salary greater than 50000, groups by realtor details, and calculates the total price for each realtor. The output format matches the gold query.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the realtor and contract tables, filters for realtors with a salary greater than 50000 and rentals after December 31, 2023, and groups by realtor details to calculate the total price for each realtor. The output format for the realtor's name, surname, and salary is also correctly specified.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q3",
       "submission_id": "s2_q3_sub1",
@@ -406,11 +406,11 @@
       "human_reason": "The query is not syntactically correct because the group by clause is missing while the having count is being used. The order of columns in the select statement is not as the one specified in the problem statement, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The GROUP BY clause is missing the AGE column, which should be included to match the gold query's grouping criteria.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The GROUP BY clause is missing the AGE column, which is required to aggregate the results correctly. Additionally, the SELECT clause should include the TENANT.NAME column in the GROUP BY clause to match the gold query.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q3",
       "submission_id": "s2_q3_sub2",
@@ -418,11 +418,11 @@
       "human_reason": "The query is not syntactically correct because the parking column from the property table is used without joining the table itself. The group by also needs the tenant id to ensure uniqueness.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not join the PROPERTY table to filter properties with a parking space, which is necessary to answer the question correctly.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not join the PROPERTY table, so it does not filter properties with a parking space. The correct query should include a join with the PROPERTY table to check the parking attribute.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q3",
       "submission_id": "s2_q3_sub3",
@@ -430,11 +430,11 @@
       "human_reason": "The query is syntactically correct, but missing the condition about the property parking availability. The table join is done with using the from and where syntax, which is also adequate.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the tenant, contract, and property tables correctly, filters for properties with parking spaces, groups by tenant ID, name, and age, and checks if the count of rented properties is greater than or equal to two.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the tenant, contract, and property tables correctly, filters for properties with parking, groups by tenant, and checks for tenants who have rented at least two properties with parking. The slight difference in the HAVING clause (>= vs >) does not affect the result since both will return tenants with two or more properties.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q3",
       "submission_id": "s2_q3_sub4",
@@ -442,11 +442,11 @@
       "human_reason": "The query is syntactically correct, but missing the having count to ensure that at least two properties have been rented by a tenant. The group by is missing the tenant id to ensure uniqueness.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include a HAVING clause to filter tenants who have rented at least two properties with parking spaces. The correct query should include `HAVING COUNT(*) > 1` to ensure only tenants meeting the criteria are listed.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include a HAVING clause to filter tenants who have rented at least two properties with parking. The GROUP BY clause should include TENANT.ID to ensure correct aggregation and filtering.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q3",
       "submission_id": "s2_q3_sub5",
@@ -454,11 +454,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the = operator is used instead of LIKE, but both are valid options.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the tenant, contract, and property tables correctly, filters for properties with parking spaces, groups by tenant ID, name, and age, and checks if the count of rented properties is greater than or equal to two.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the tenant, contract, and property tables correctly, filters for properties with parking, groups by tenant, and counts the number of properties rented by each tenant, ensuring that only tenants who have rented at least two properties with parking are listed.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q4",
       "submission_id": "s2_q4_sub1",
@@ -466,11 +466,11 @@
       "human_reason": "The query is syntactically correct but the salary update has the wrong value (the 10 is just added, not utilized as 10 percent).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct, but it incorrectly adds a fixed amount of 10 to the salary instead of increasing it by ten percent. The correct operation should be multiplying the current salary by 1.1.",
+      "llm_reason": "The query is syntactically correct, but it incorrectly adds 10 to the salary instead of increasing it by 10 percent. The correct calculation should be `SALARY = SALARY * 1.1`.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q4",
       "submission_id": "s2_q4_sub2",
@@ -478,11 +478,11 @@
       "human_reason": "The query is syntactically correct but missing the construction year condition.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the salary of all realtors who have rented at least one property, regardless of the construction year of the property. It lacks the filter condition to only include properties built after the year 2021.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not filter realtors who have rented properties built after the year 2021. The WHERE clause in the subquery is missing the condition `CONSTRUCTION_YEAR > 2021`.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q4",
       "submission_id": "s2_q4_sub3",
@@ -490,11 +490,11 @@
       "human_reason": "The query is not syntactically correct, the update and set keywords are not used as intended (update needs the table name and set needs the new column values). The inner query does not incorporate the condition regarding the construction year of the property.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query is syntactically incorrect. The UPDATE statement is missing the table name after 'UPDATE'. Additionally, the WHERE clause in the subquery does not filter properties built after 2021.",
+      "llm_reason": "The query is syntactically incorrect. The UPDATE statement is missing the table name after UPDATE and the SET clause is incomplete. The WHERE clause is also incomplete and lacks the condition to filter realtors based on the construction year of the properties they have rented.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q4",
       "submission_id": "s2_q4_sub4",
@@ -502,11 +502,11 @@
       "human_reason": "The query is not syntactically correct, the set clause is missing after the update.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query is syntactically incorrect because it lacks the SET clause, which is necessary to specify the column and value to be updated. The correct syntax should include a SET clause to update the salary.",
+      "llm_reason": "The query is syntactically incorrect because it is missing the SET clause, which is necessary to specify the column to be updated and the new value. The correct syntax should include SET SALARY = SALARY * 1.1.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s2",
       "question_id": "s2_q4",
       "submission_id": "s2_q4_sub5",
@@ -514,11 +514,11 @@
       "human_reason": "The query is both syntactically and semantically correct but a different approach to joins was used. The realtor table does not explicitly need to be joined as the realtor id is present in the contract table.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It updates the salary of realtors who have rented properties built after the year 2021, using a subquery that joins the REALTOR, CONTRACT, and PROPERTY tables.",
+      "llm_reason": "The query is both syntactically and semantically correct. It updates the salary of realtors who have rented properties built after the year 2021, using a subquery that joins the REALTOR, CONTRACT, and PROPERTY tables. The logic and result are equivalent to the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q1",
       "submission_id": "s3_q1_sub1",
@@ -526,11 +526,11 @@
       "human_reason": "The query is syntactically not correct because the update statement is missing the SET clause. The ID column is being used without specifying the table name making it ambiguous (in the inner query). The group by and having clauses are also not present.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not update the salary of veterinarians who have more than three years of experience and had at least two exams that lasted over 20 minutes. The subquery in the student's SQL only filters veterinarians with more than three years of experience and exams lasting over 20 minutes, but it does not count the number of such exams to ensure there are at least two. Additionally, the salary update part is missing in the student's query.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not update the salary of the veterinarians. The SET clause is missing in the UPDATE statement, which is necessary to specify the new salary value.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q1",
       "submission_id": "s3_q1_sub2",
@@ -538,11 +538,11 @@
       "human_reason": "The query is syntactically correct, but the set part needs 10 percent, not just 10. The conditions for the years of experience and duration are missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query adds a fixed amount of 10 to the salary instead of increasing it by ten percent. Additionally, the student's query does not filter veterinarians with more than three years of experience or exams that lasted over 20 minutes.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not filter veterinarians with more than three years of experience and does not check if the exams lasted over 20 minutes. The correct query should include these filters in the subquery.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q1",
       "submission_id": "s3_q1_sub3",
@@ -550,11 +550,11 @@
       "human_reason": "The query is syntactically not correct because having count is used without the group by clause. The comparison in having count is also wrong (< 2 instead of > 1).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The subquery in the student's SQL uses `HAVING COUNT(*) < 2`, which selects veterinarians with fewer than two exams lasting over 20 minutes, instead of the required 'at least two exams'. This results in updating the salary for veterinarians who do not meet the criteria specified in the question.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The subquery in the student's SQL uses HAVING COUNT(*) < 2, which means it selects veterinarians who had less than two exams lasting over 20 minutes, instead of at least two exams as required by the question.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q1",
       "submission_id": "s3_q1_sub4",
@@ -562,11 +562,11 @@
       "human_reason": "The query is syntactically correct, but missing the group by and having count clauses.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The subquery in the student's SQL only filters veterinarians with more than three years of experience and exams lasting over 20 minutes, without ensuring that they had at least two such exams. This is incorrect because it lacks the GROUP BY clause and HAVING COUNT(*) > 1 condition present in the gold query.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The subquery in the student's SQL does not include the GROUP BY clause and the HAVING clause, which are necessary to filter veterinarians who have had at least two exams lasting over 20 minutes. The correct query should include these clauses to ensure the correct filtering.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q1",
       "submission_id": "s3_q1_sub5",
@@ -574,11 +574,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the calculation for the salary is different, but correct.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It updates the salary of veterinarians with more than three years of experience who have had at least two exams lasting over 20 minutes by adding ten percent to their current salary.",
+      "llm_reason": "The query is both syntactically and semantically correct. It updates the salary of veterinarians with more than three years of experience who have had at least two exams lasting over 20 minutes by adding ten percent to their current salary. The logic and conditions in the subquery are equivalent to the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q2",
       "submission_id": "s3_q2_sub1",
@@ -586,11 +586,11 @@
       "human_reason": "The query is syntactically correct, but missing two aggregation functions regarding the total and minimal duration of an exam. The group by is also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but does not correctly answer the question. It only selects the veterinarian ID and salary, without calculating the total duration or minimal duration of exams performed by each veterinarian.",
+      "llm_reason": "The query is syntactically correct but does not correctly answer the question. It only selects the veterinarian ID and salary, and does not include the total duration and minimal duration of exams performed by the veterinarians. The correct query should include SUM(DURATION) and MIN(DURATION) in the SELECT clause and GROUP BY VETERINARIAN.ID, VETERINARIAN.SALARY.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q2",
       "submission_id": "s3_q2_sub2",
@@ -598,11 +598,11 @@
       "human_reason": "The query is syntactically not correct because aggregate functions are used without a group by statement. The id column is ambiguous, so the table name needs to be explicitly stated.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the GROUP BY clause, which is necessary to aggregate the SUM and MIN of DURATION for each veterinarian. The correct query should group by VETERINARIAN.ID and VETERINARIAN.SALARY.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the GROUP BY clause, which is necessary to aggregate the SUM and MIN of the duration for each veterinarian. The correct query should group by VETERINARIAN.ID and VETERINARIAN.SALARY.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q2",
       "submission_id": "s3_q2_sub3",
@@ -610,11 +610,11 @@
       "human_reason": "The query is syntactically correct, but is missing a MIN aggregate function, as well as the DESC keyword for the ordering. The count aggregate function was used instead of sum.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query uses COUNT(DURATION) instead of SUM(DURATION) to calculate the total duration of exams, which does not match the gold query. Additionally, the ORDER BY clause in the student's query sorts by salary in ascending order instead of descending as required.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query uses COUNT(DURATION) instead of SUM(DURATION) to calculate the total duration of exams, which does not match the gold query. Additionally, the student's query does not include the MIN(DURATION) aggregation, which is required by the question. The student's query also sorts the results in ascending order by salary, while the gold query sorts in descending order.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q2",
       "submission_id": "s3_q2_sub4",
@@ -622,11 +622,11 @@
       "human_reason": "The query is not syntactically correct because the table joins are missing and the column names are being used. The two aggregate functions SUM and MIN as well as the group by clause are also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the required columns for total duration and minimal duration of exams performed by veterinarians. Additionally, it lacks the necessary join with the EXAM table to aggregate the exam durations.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the required columns for total duration and minimal duration of exams. Additionally, it does not perform any aggregation or grouping, which is necessary to calculate the total and minimal duration of exams.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q2",
       "submission_id": "s3_q2_sub5",
@@ -634,11 +634,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the table joins are implemented using FROM and WHERE clauses which is also valid.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It uses an implicit join (comma syntax) instead of an explicit JOIN clause, but this does not affect the meaning or result of the query. The query correctly filters veterinarians with a salary greater than 30000, aggregates the total and minimal duration of exams, groups by veterinarian ID and salary, and orders the results in descending order by salary.",
+      "llm_reason": "The query is both syntactically and semantically correct. It uses an implicit join (comma syntax) instead of an explicit JOIN clause, but this does not affect the meaning of the query. The query correctly filters veterinarians with a salary greater than 30000, aggregates the total and minimal duration of exams, and sorts the results by salary in descending order.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q3",
       "submission_id": "s3_q3_sub1",
@@ -646,11 +646,11 @@
       "human_reason": "The query is syntactically correct but missing a count aggregation function with group by. There is an OR instead of an AND operator for combining the conditions. A different alias has been used, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query uses an OR condition instead of an AND condition in the WHERE clause, which means it will include veterinarians who have more than five years of experience or where a therapy was prescribed, rather than both conditions as required by the question.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query uses an OR condition instead of an AND condition in the WHERE clause, which means it includes veterinarians with more than five years of experience regardless of whether a therapy was prescribed. Additionally, the student query does not count the number of exams, which is required by the question.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q3",
       "submission_id": "s3_q3_sub2",
@@ -658,11 +658,11 @@
       "human_reason": "The query is syntactically correct, but is missing two conditions regarding the veterinarian's years of experience as well as whereas the therapy was prescribed. The group by is missing the veterinarian id, to ensure the uniqueness. The create or replace view syntax was used, which is acceptable. A different alias has been used, but that is acceptable.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It groups by veterinarian name and years of experience without filtering for veterinarians with more than five years of experience or exams where therapy was prescribed.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It does not filter veterinarians with more than five years of experience and does not consider only the exams where a therapy was prescribed. The WHERE clause is missing, and the GROUP BY clause does not include VETERINARIAN.ID, which is necessary for the COUNT(*) aggregation to work correctly.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q3",
       "submission_id": "s3_q3_sub3",
@@ -670,11 +670,11 @@
       "human_reason": "The query is syntactically not correct, the create view is not properly defined because the view keyword is missing. The group by clause is missing, as well as a condition for the therapy prescribed.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It does not filter for exams where a therapy was prescribed to the pet, as indicated by the missing condition `THERAPY_PRESCRIBED LIKE 'yes'` in the WHERE clause.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It does not filter for exams where a therapy was prescribed to the pet. The correct query should include a condition `THERAPY_PRESCRIBED LIKE 'yes'` in the WHERE clause.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q3",
       "submission_id": "s3_q3_sub4",
@@ -682,11 +682,11 @@
       "human_reason": "The query is syntactically not correct, the where clause has a typo, there are no joins and no group by clause. The condition regarding years of experience is missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has a syntax error. The WHERE clause is incomplete and missing the GROUP BY clause.",
+      "llm_reason": "The query has a syntax error. The COUNT(*) function is not properly followed by a GROUP BY clause, which is necessary for aggregation. Additionally, the WHERE clause is incorrectly placed and lacks the necessary conditions for filtering exams with therapy prescribed and veterinarians with more than five years of experience.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q3",
       "submission_id": "s3_q3_sub5",
@@ -694,11 +694,11 @@
       "human_reason": "The query both syntactically and semantically correct, the joins are formed using from and where clauses, which is also adequate. The aliases used are different, but that is valid.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The view name should be 'VET_STATS' as per the gold query, but it is written as 'VETERINARIANS'. Additionally, the use of commas for joining tables (instead of an explicit JOIN clause) is not recommended and can lead to confusion.",
+      "llm_reason": "The query has incorrect syntax. The view name 'VETERINARIANS' does not match the required view name 'VET_STATS' in the gold query.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q4",
       "submission_id": "s3_q4_sub1",
@@ -706,11 +706,11 @@
       "human_reason": "The query is syntactically correct but missing the condition regarding the pet allergies. The joins are implemented using the from and where clauses (comma syntax), which is also a valid approach.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. The student's query does not filter for pets with allergies, which is a crucial condition specified in the question.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not filter for pets with allergies, which is a crucial condition specified in the question. The WHERE clause in the subquery only checks for veterinarians earning more than 30000, but it does not include the condition to check if the pet has allergies.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q4",
       "submission_id": "s3_q4_sub2",
@@ -718,11 +718,11 @@
       "human_reason": "The query is syntactically correct but missing the join regarding the pet table. Consequently, the condition regarding the pet allergies is also not present.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query only filters exams based on veterinarians earning more than 30000, without considering whether the pets have allergies.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query only filters exams based on the veterinarian's salary being greater than 30000, but it does not check if the pet has allergies. The correct query should include a condition to check if the pet has allergies.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q4",
       "submission_id": "s3_q4_sub3",
@@ -730,11 +730,11 @@
       "human_reason": "The query is not syntactically correct because the id column is ambiguous meaning that the table name should explicitly be stated.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has a syntax error. The subquery in the DELETE statement is selecting VETERINARIAN.ID instead of EXAM.ID, which will result in an incorrect deletion target.",
+      "llm_reason": "The query has a syntax error. The subquery in the WHERE clause is selecting VETERINARIAN.ID instead of EXAM.ID. This will cause the query to fail because the DELETE statement is trying to delete from EXAM using VETERINARIAN.ID, which does not match the expected column type.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q4",
       "submission_id": "s3_q4_sub4",
@@ -742,11 +742,11 @@
       "human_reason": "The query is not syntactically correct because the wrong keyword is used for deletion (drop and not delete). The inner query does not have any joins, it just selects all of the ids from the veterinarian table.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query uses the incorrect syntax 'DROP FROM' instead of 'DELETE FROM'. Additionally, the subquery does not include any conditions to filter veterinarians earning more than 30000 or pets with allergies.",
+      "llm_reason": "The query uses 'DROP FROM' instead of 'DELETE FROM', which is incorrect syntax for deleting records. Additionally, the subquery does not include the necessary joins and conditions to filter exams based on pets with allergies and veterinarians earning more than 30000.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s3",
       "question_id": "s3_q4",
       "submission_id": "s3_q4_sub5",
@@ -754,11 +754,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the joins are implemented using the from and where syntax which is also valid. The comparison regarding the allergies column is done with the = operator instead of LIKE, which is also correct.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It correctly deletes exams performed on pets with allergies by veterinarians earning more than 30,000.",
+      "llm_reason": "The query is both syntactically and semantically correct. It correctly deletes exams performed on pets with allergies by veterinarians earning more than 30000. The student's query uses an implicit join (comma syntax) instead of an explicit JOIN clause, but it achieves the same result as the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q1",
       "submission_id": "s4_q1_sub1",
@@ -766,11 +766,11 @@
       "human_reason": "The query is not syntactically correct because the average aggregate function is used without group by. The wrong keyword was used for the average aggregate function (AVERAGE, but AVG is correct). The name and surname are not displayed in a single column divided by a blank space. The alias for average isn't used. The alias for the view is different, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. The student's query uses AVERAGE(DURATION) instead of AVG(DURATION), which is incorrect syntax for calculating the average duration. Additionally, the student's query does not group by gym member ID, name, or surname, so it will not calculate the average duration per gym member.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query does not calculate the average duration of workouts for each gym member. Instead, it selects the name, surname, and duration without aggregation. Additionally, the student query does not group the results by gym member, which is necessary to calculate the average duration. The correct query should use AVG(DURATION) and include GROUP BY GYM_MEMBER.ID, GYM_MEMBER.NAME, GYM_MEMBER.SURNAME.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q1",
       "submission_id": "s4_q1_sub2",
@@ -778,11 +778,11 @@
       "human_reason": "The query is not syntactically correct because the alias for the average aggregation function does not exist. The group by also needs id because otherwise it won't be unique. The order by clause is missing. The age condition is also missing. The alias for the view is  different, but that is not problematic.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It lacks a filter for gym members older than 30 years and does not concatenate the name and surname into a single column.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It does not filter gym members older than 30 years and does not sort the data by the gym member's surname in descending order. Additionally, it does not concatenate the name and surname into a single column.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q1",
       "submission_id": "s4_q1_sub3",
@@ -790,11 +790,11 @@
       "human_reason": "The query is syntactically correct, but missing the average aggregate function, meaning that the group by clause is also missing. The alias for the view is different, but that is also valid.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the average duration of a workout for gym members, which is required by the question. The student's query only selects the name and surname of gym members older than 30 years without calculating the average workout duration.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the average duration of a workout for gym members, which is required by the question. The correct query should include the AVG(DURATION) function and GROUP BY clause as in the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q1",
       "submission_id": "s4_q1_sub4",
@@ -806,7 +806,7 @@
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q1",
       "submission_id": "s4_q1_sub5",
@@ -814,11 +814,11 @@
       "human_reason": "The query is both syntactically and semantically correct, but the create or replace view syntax was used, which is also correct. The table joins are implemented using the from and where clauses, which is also valid. The alias for the view is different, but that is valid.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It creates a view that lists the name and surname (in a single column) and the average duration of workouts for gym members older than 30 years, sorted by surname in descending order. The differences between the student's query and the gold query are only in the view name ('DATA_MEMBERS' vs 'MEMBER_STATS') and the alias for the average duration ('avg_stats' vs 'avg_workout_duration'), which do not affect the meaning of the query.",
+      "llm_reason": "The query is both syntactically and semantically correct. It creates a view that lists the name and surname (in a single column, divided by a blank space) and the average duration of a workout for gym members older than 30 years, sorted in descending order by the gym member's surname. The differences in the view name (MEMBER_STATS vs DATA_MEMBERS) and the alias for the average duration (avg_workout_duration vs avg_stats) do not affect the meaning of the query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q2",
       "submission_id": "s4_q2_sub1",
@@ -826,11 +826,11 @@
       "human_reason": "The query is not syntactically correct because the SET and UPDATE clauses are not used properly (the SET is missing, and the UPDATE should not be used to specify the table in which the update happens). The inner query does not have a having count clause, just the group by and the part regarding the coaches that didn't have a grade lower than three isn't implemented.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only selects coaches who have had at least five workouts longer than 30 minutes, without considering the condition that these coaches should not have a workout with a grade lower than 3. The MINUS clause in the gold query ensures this additional filtering, which is missing in the student's query.",
+      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only selects coaches who have had at least five workouts longer than 30 minutes, without considering the condition that these coaches should not have a workout with a grade lower than 3. The correct query should include both conditions as specified in the gold query.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q2",
       "submission_id": "s4_q2_sub2",
@@ -838,11 +838,11 @@
       "human_reason": "The query is syntactically correct but falsely combined the conditions for the workout duration and grade in the same part of the query.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query includes a condition `AND GRADE >= 3` in the subquery, which means it only selects coaches who have at least one workout with a grade of 3 or higher. This is incorrect because the question specifies that the coach should not have any workouts with a grade lower than 3, meaning all grades must be 3 or higher. The correct approach is to use two separate subqueries: one for selecting coaches with at least five workouts longer than 30 minutes and another for excluding those who have any workout with a grade lower than 3.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query includes a condition `AND GRADE >= 3` in the subquery, which means it only selects coaches who have at least one workout with a grade of 3 or higher. This is incorrect because the question specifies that the coaches should not have any workout with a grade lower than 3, which is checked using the `MINUS` operator in the gold query. The student's query does not exclude coaches who have any workout with a grade lower than 3.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q2",
       "submission_id": "s4_q2_sub3",
@@ -850,11 +850,11 @@
       "human_reason": "The query is syntactically correct but missing the part of the query regarding the at least five workouts longer than 30 minutes.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the provision percentage of coaches who have at least one workout with a grade of 3 or higher, rather than those who had at least five workouts longer than 30 minutes and didn't have any workout with a grade lower than 3.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the provision percentage of coaches who have at least one workout with a grade of 3 or higher, rather than those who have at least five workouts longer than 30 minutes and no workout with a grade lower than 3. The correct query should filter coaches based on the duration of workouts and the grades of workouts separately, and then combine these conditions using set operations.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q2",
       "submission_id": "s4_q2_sub4",
@@ -862,11 +862,11 @@
       "human_reason": "The query is not syntactically correct because the id column is ambiguous. The inner query is not correct because all of the conditions are combined and there is no grouping and using the having count clause.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query includes a condition `AND GRADE >= 3` in the subquery, which means it only selects coaches who have at least one workout with a grade of 3 or higher. This is incorrect because the question specifies that the coach should not have any workouts with a grade lower than 3, meaning all grades must be 3 or higher. The correct approach is to use two separate subqueries: one for counting workouts longer than 30 minutes and another for ensuring no workouts have a grade lower than 3.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query includes a condition `AND GRADE >= 3` in the subquery, which means it only selects coaches who have at least one workout with a grade of 3 or higher. This is incorrect because the question specifies that the coaches should not have any workout with a grade lower than 3, which is checked using the `MINUS` operator in the gold query. The student's query does not exclude coaches with any workout grade lower than 3.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q2",
       "submission_id": "s4_q2_sub5",
@@ -878,7 +878,7 @@
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q3",
       "submission_id": "s4_q3_sub1",
@@ -886,11 +886,11 @@
       "human_reason": "The query is not syntactically correct because from is misspeled. The inner query is also not valid, just the gym members older than 20 years are specified.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only filters gym members older than 20 years without considering the package price and the count of distinct gym members who attended the workouts. The subquery should include a join with the PACKAGE table to filter by price and then group by GYM_MEMBER_ID to ensure at least three distinct members attended.",
+      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only filters gym members older than 20 years without considering the package price and the count of distinct gym members. The correct query should include the package price condition and ensure that the count of distinct gym members is at least three.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q3",
       "submission_id": "s4_q3_sub2",
@@ -898,11 +898,11 @@
       "human_reason": "The query is syntactically correct but missing the conditions regarding the member age and package price. There is also no group by and having clause.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query does not include the necessary filters and grouping to correctly identify workouts attended by at least three gym members older than 20 years with a package price lower than 3500. The WHERE clause in the subquery is missing the conditions AGE > 20 AND PRICE < 3500, and the HAVING COUNT(*) >= 3 clause is also missing.",
+      "llm_reason": "The student's query does not include the necessary filters and grouping to correctly identify workouts attended by at least three gym members older than 20 years with a package price lower than 3500. The WHERE clause in the subquery is missing the conditions AGE > 20 and PRICE < 3500, and the HAVING clause is missing to count the number of gym members per workout.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q3",
       "submission_id": "s4_q3_sub3",
@@ -910,11 +910,11 @@
       "human_reason": "The query is syntactically correct but missing a join in the inner query regarding the package table (also the condition regarding the package price). The group by and having count clauses are also not to be found.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only filters gym members older than 20 years without considering the package price condition or the count of such members.",
+      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It only filters gym members older than 20 years without considering the package price condition or the count of such members. The correct query should include a join with the PACKAGE table to filter by price and then group by gym member ID to count those who meet the criteria.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q3",
       "submission_id": "s4_q3_sub4",
@@ -922,11 +922,11 @@
       "human_reason": "The query is not syntactically correct because it is missing the two joins between the three tables (gym member, package and workout tables). The group by and having count are used, but they do not make sense in this context where the joins are not previously implemented.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The student's query is syntactically incorrect. The subquery lacks the necessary joins with the WORKOUT and PACKAGE tables, which are required to filter gym members based on their age and package price.",
+      "llm_reason": "The student's query is syntactically incorrect. The subquery is missing the necessary joins with the WORKOUT and PACKAGE tables. The subquery should include joins to filter gym members based on age and package price, as well as to count the number of workouts attended by each gym member.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q3",
       "submission_id": "s4_q3_sub5",
@@ -934,11 +934,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the joins are implemented using the from and where combination which is also valid (comma syntax).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It uses the same logic as the gold query to delete workouts attended by at least three gym members older than 20 years with a package price lower than 3500, using an implicit join in the subquery.",
+      "llm_reason": "The query is both syntactically and semantically correct. It uses a comma-separated join syntax, which is equivalent to the explicit JOIN syntax used in the gold query. Both queries achieve the same result by deleting workouts attended by at least three gym members older than 20 years with a package price lower than 3500.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q4",
       "submission_id": "s4_q4_sub1",
@@ -946,11 +946,11 @@
       "human_reason": "The query is syntactically correct but missing the conditions regarding the height and status of gym members.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It lacks the necessary filter conditions to select only those coaches who had at least one workout with gym members taller than 200 cm that have an active status.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It lacks the necessary filter conditions to select only those coaches who had at least one workout with gym members taller than 200 cm and have an active status. The WHERE clause is missing in the student's query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q4",
       "submission_id": "s4_q4_sub2",
@@ -958,11 +958,11 @@
       "human_reason": "The query is syntactically correct but has a group by with a having count clause that specifies the wrong number of workouts (the problem statement said at least one, not greater than one).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query includes a GROUP BY clause with HAVING COUNT(*) > 1, which filters coaches who have more than one workout with gym members taller than 200 cm and active status. This changes the meaning of the question, which asks for any coach who had at least one such workout, not specifically those with more than one.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The student's query includes a GROUP BY clause and a HAVING COUNT(*) > 1 condition, which filters coaches who have more than one workout with gym members taller than 200 cm and active status. This does not match the gold query, which simply lists all coaches who have at least one such workout without any count restriction.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q4",
       "submission_id": "s4_q4_sub3",
@@ -970,11 +970,11 @@
       "human_reason": "The query is syntactically not correct because the column names used are ambiguous (coach and gym member have the id and name columns which are the same).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not join the tables correctly to filter workouts with gym members taller than 200 cm who have an active status. The student's query simply lists all coaches without ensuring the conditions specified in the question are met.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not join the tables correctly, leading to a Cartesian product instead of filtering based on the relationships between the tables. The WHERE clause should include conditions to join the tables properly, such as matching coach IDs and gym member IDs.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q4",
       "submission_id": "s4_q4_sub4",
@@ -986,7 +986,7 @@
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s4",
       "question_id": "s4_q4",
       "submission_id": "s4_q4_sub5",
@@ -994,11 +994,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the column order in the select statement is different, but that is not a problem. There is an unnecessary group by clause, but that does not interfere with the correctness of the query.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. The use of GROUP BY without any aggregate functions is unnecessary and changes the meaning of the query. It groups the results by coach ID and name, which does not align with the question's requirement to list coaches who had at least one workout with gym members taller than 200 cm that have an active status.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. The GROUP BY clause is unnecessary and changes the meaning of the query. The original query should not include GROUP BY because it is not aggregating any data; it is simply filtering and selecting distinct coaches. The student's query incorrectly groups by coach ID and name, which is not required for the question.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q1",
       "submission_id": "s5_q1_sub1",
@@ -1006,11 +1006,11 @@
       "human_reason": "The query is syntactically correct but is missing the count aggregation function and subsequently the group by. The ordering is just done by one criteria, not two.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the COUNT(*) aggregation to calculate the total number of order occurrences for each meal, and it does not sort the data by meal type in descending order as required.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It does not include the COUNT(*) aggregation to calculate the total number of order occurrences for each meal. Additionally, it does not sort the data by meal type in descending order as required.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q1",
       "submission_id": "s5_q1_sub2",
@@ -1018,11 +1018,11 @@
       "human_reason": "The query is syntactically correct, but using sum instead of count as the aggregation function. The conditions regarding the gluten and payment method are missing. The ordering is also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It lacks the WHERE clause to filter for gluten-free meals and orders paid by card. Additionally, it uses SUM(MEAL.ID) instead of COUNT(*) to calculate the total number of order occurrences, which is incorrect.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The WHERE clause is missing, so it does not filter for gluten-free meals and orders paid by card. Additionally, the SUM(MEAL.ID) is incorrect for counting the total number of order occurrences; it should be COUNT(*). The ORDER BY clause is also missing, so the results are not sorted as required.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q1",
       "submission_id": "s5_q1_sub3",
@@ -1030,11 +1030,11 @@
       "human_reason": "The query is not syntactically correct, the wrong column name was specified (type instead of meal type). The count and group by are missing and the order is done by a single column and not two as specified.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query is syntactically correct but semantically incorrect. It only selects the name and type of meals, missing the number of calories and the total number of order occurrences. Additionally, it does not group by meal ID, which is necessary for counting the occurrences, and it sorts only by meal type in descending order without considering the number of calories.",
+      "llm_reason": "The query is syntactically correct but semantically incorrect. It only selects the name and type of the meal, and does not include the number of calories or the total number of order occurrences. Additionally, it does not group the results by meal ID, name, type, and number of calories, and it only orders the results by type in descending order, not by number of calories in ascending order followed by type in descending order.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q1",
       "submission_id": "s5_q1_sub4",
@@ -1042,11 +1042,11 @@
       "human_reason": "The query is not syntactically correct, there is no from clause. There is no count and group by and the order is done in terms of a single column.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query is syntactically incorrect. It lacks the necessary columns in the SELECT statement (NUMBER_OF_CALORIES, COUNT(*)), the GROUP BY clause, and the aggregation function COUNT(*) to calculate the total number of order occurrences for each meal.",
+      "llm_reason": "The query is syntactically incorrect. It is missing the SELECT clause for NUMBER_OF_CALORIES and COUNT(*), and it does not include the GROUP BY clause which is necessary for the aggregation function COUNT(*). Additionally, the ORDER BY clause is incomplete and does not include the required DESC for MEAL_TYPE.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q1",
       "submission_id": "s5_q1_sub5",
@@ -1054,11 +1054,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the from and where clauses were used for implementing joins, which is a valid approach. The LIKE operator was used instead of = which is also correct.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the MEAL and ORDERS tables correctly, filters for gluten-free meals and orders paid by card, groups by meal details, and sorts the results as required.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the MEAL and ORDERS tables, filters for gluten-free meals and orders paid by card, groups by meal details, and orders the results as specified.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q2",
       "submission_id": "s5_q2_sub1",
@@ -1066,11 +1066,11 @@
       "human_reason": "The query is syntactically correct but is missing the group by and having count clauses.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query does not correctly answer the question. It deletes orders with a price greater than 2500 and carried out by waiters with a salary greater than 60000, but it does not filter for orders that have been carried out at least twice. The correct query should include a GROUP BY clause on ORDERS.ID and a HAVING COUNT(*) > 1 condition to ensure only orders carried out at least twice are deleted.",
+      "llm_reason": "The student's query does not correctly answer the question. It deletes orders with a price greater than 2500 and a waiter's salary greater than 60000, but it does not filter for orders that have been carried out at least twice. The GROUP BY clause and HAVING COUNT(*) > 1 are missing in the student's query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q2",
       "submission_id": "s5_q2_sub2",
@@ -1078,11 +1078,11 @@
       "human_reason": "The query is syntactically correct but is missing the condition regarding the waiter salary.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query does not correctly filter orders by waiters with a salary greater than 60000. It only considers the price condition and the count of orders, but it lacks the salary condition in the subquery.",
+      "llm_reason": "The student's query does not correctly filter orders by waiters with a salary greater than 60000. It only considers the price condition and the count of orders, but does not include the salary condition in the subquery.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q2",
       "submission_id": "s5_q2_sub3",
@@ -1090,11 +1090,11 @@
       "human_reason": "The query is not syntactically correct because the FROM clause is misspelled. The group by and having count are also missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It does not include the necessary GROUP BY clause and HAVING condition to filter orders that have been carried out at least twice by waiters with a salary greater than 60000.",
+      "llm_reason": "The student's query is syntactically correct but semantically incorrect. It does not include the necessary GROUP BY clause and HAVING condition to filter orders that have been carried out at least twice. The student's query only filters orders based on price and waiter salary, without considering the count of occurrences.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q2",
       "submission_id": "s5_q2_sub4",
@@ -1102,11 +1102,11 @@
       "human_reason": "The query is not syntactically correct because the id column is ambiguous and the table name needs to be stated (in the inner query).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It correctly deletes orders that have been carried out at least twice by waiters with a salary greater than 60,000, taking into account only the orders with a price greater than 2500.",
+      "llm_reason": "The query is both syntactically and semantically correct. It correctly deletes orders that have been carried out at least twice by waiters with a salary greater than 60000, taking into account only the orders with a price greater than 2500. The query structure and logic are equivalent to the gold query.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q2",
       "submission_id": "s5_q2_sub5",
@@ -1114,11 +1114,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the join is implemented using from and where clauses which is also valid.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not filter orders based on the waiter's salary greater than 60000. It only checks if the order price is greater than 2500 and groups by ORDER.ID to find those that appear more than once, without considering the waiter's salary.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not filter orders based on the waiter's salary greater than 60000. The WHERE clause in the subquery should include the condition for the waiter's salary, but it is missing in the student's query.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q3",
       "submission_id": "s5_q3_sub1",
@@ -1126,11 +1126,11 @@
       "human_reason": "The query is syntactically correct, but missing the group by and having count statements.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the regular customer status of guests who have ordered any gluten-free meal, without considering whether they have ordered less than three such meals.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not include a GROUP BY clause or a HAVING clause to filter guests who have ordered less than three gluten-free meals. It simply selects guests who have ordered any gluten-free meal, which is incorrect.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q3",
       "submission_id": "s5_q3_sub2",
@@ -1142,7 +1142,7 @@
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q3",
       "submission_id": "s5_q3_sub3",
@@ -1150,11 +1150,11 @@
       "human_reason": "The query is syntactically not correct because the set clause after the update is missing. The group by and having count statements are missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the regular customer status of guests who have ordered any gluten-free meals, regardless of the count. It lacks the GROUP BY clause and HAVING condition to filter guests with less than three gluten-free meals.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query does not include the condition to count only gluten-free meals and does not set the regular customer status to 'yes'. The correct query should include a GROUP BY clause and a HAVING clause to filter guests who have ordered less than three gluten-free meals.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q3",
       "submission_id": "s5_q3_sub4",
@@ -1162,11 +1162,11 @@
       "human_reason": "The query is not syntactically correct because the wrong table name is specified (guests and not guest). Guest id is being compared with the = operator and not IN. The condition regarding gluten free meals, the group but as well as having count statements are missing.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student's query updates the regular customer status for all guests who have ordered any gluten-free meal, regardless of the count. It lacks the filtering condition to check if the guest has ordered less than three gluten-free meals.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. The student query does not filter guests who have ordered less than three gluten-free meals. Instead, it updates the regular customer status for all guests who have ordered any meal, regardless of the number of gluten-free meals.",
       "label_match": false
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q3",
       "submission_id": "s5_q3_sub5",
@@ -1174,11 +1174,11 @@
       "human_reason": "The query is both syntactically and semantically correct, the = operator is used instead of LIKE which is also a valid approach.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It updates the regular customer status of guests who have ordered less than three gluten-free meals, which matches the gold query.",
+      "llm_reason": "The query is both syntactically and semantically correct. It updates the regular customer status of guests who have ordered less than three gluten-free meals. The student's query correctly joins the ORDERS and MEAL tables, filters for gluten-free meals (GLUTEN = 'no'), groups by GUEST_ID, and checks if the count of such meals is less than three. This is equivalent to the gold query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q4",
       "submission_id": "s5_q4_sub1",
@@ -1186,11 +1186,11 @@
       "human_reason": "The query is syntactically correct but missing the conditions for the number of calories and salary.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It lists all waiters who have served high calorie meals without filtering for those earning more than 50,000.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It lists all waiters who have served high calorie meals and earn more than 50,000, but it does not calculate the years of experience for each waiter. The correct query should include a calculation for years of experience based on the current date and the waiter's start date, which is not present in the student's query.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q4",
       "submission_id": "s5_q4_sub2",
@@ -1198,11 +1198,11 @@
       "human_reason": "The query is syntactically correct but missing a join to the meal table and the condition regarding the number of calories.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_semantic",
-      "llm_reason": "The query parses and runs but does not correctly answer the question. It filters waiters earning more than 50,000 but does not include the condition for serving at least one high calorie meal (having more than 700 calories). The correct query should join with the MEAL table to filter orders based on the number of calories.",
+      "llm_reason": "The query parses and runs, but it does not correctly answer the question. It only filters waiters earning more than 50000 without considering whether they served at least one high calorie meal (having more than 700 calories).",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q4",
       "submission_id": "s5_q4_sub3",
@@ -1210,11 +1210,11 @@
       "human_reason": "The query is syntactically not correct because the wrong column name was specified in the select statement.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query has incorrect syntax. The SELECT clause is missing the column names to be selected. It should select WAITER.NAME and WAITER.SURNAME instead of just WAITER.",
+      "llm_reason": "The query has incorrect syntax. The SELECT clause is missing the column names. It should be SELECT WAITER.NAME, WAITER.SURNAME instead of just SELECT WAITER.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q4",
       "submission_id": "s5_q4_sub4",
@@ -1222,11 +1222,11 @@
       "human_reason": "The query is syntactically not correct because the table joins are not specified but the columns are used.",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "incorrect_syntax",
-      "llm_reason": "The query is syntactically incorrect because it lacks the necessary JOIN clauses to connect the waiter, orders, and meal tables. The SELECT statement should include FROM and JOIN clauses to properly retrieve the required data.",
+      "llm_reason": "The query is syntactically incorrect because it lacks the necessary JOIN clauses to connect the waiter, orders, and meal tables. The WHERE clause references columns from the MEAL and WAITER tables without joining them, which would cause the query to fail to parse or execute.",
       "label_match": true
     },
     {
-      "run_id": "20260902T165212Z-qwen2.5-coder-14b",
+      "run_id": "20260908T171625Z-qwen2.5-coder-14b",
       "schema_id": "s5",
       "question_id": "s5_q4",
       "submission_id": "s5_q4_sub5",
@@ -1234,7 +1234,7 @@
       "human_reason": "The query is both syntactically and semantically correct, the joins are implemented using the from and where clause which is also valid (comma based syntax).",
       "llm_model": "qwen2.5-coder:14b",
       "llm_label": "correct",
-      "llm_reason": "The query is both syntactically and semantically correct. It joins the waiter, orders, and meal tables correctly and filters for waiters earning more than 50000 who have served at least one high calorie meal (more than 700 calories). The result will be the same as the gold query.",
+      "llm_reason": "The query is both syntactically and semantically correct. It joins the waiter, orders, and meal tables correctly and filters for waiters earning more than 50000 who have served at least one high calorie meal (more than 700 calories). The result is equivalent to the gold query.",
       "label_match": true
     }
   ]

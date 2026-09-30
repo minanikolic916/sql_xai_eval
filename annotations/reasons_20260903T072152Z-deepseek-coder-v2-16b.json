@@ -1,11 +1,7 @@
 {
   "run_id": "20260903T072152Z-deepseek-coder-v2-16b",
   "dataset_version": "1.0",
-  "cause_values": [
-    "same",
-    "partial",
-    "different"
-  ],
+  "cause_values": ["same", "partial", "different"],
   "annotations": [
     {
       "submission_id": "s1_q1_sub1",
@@ -300,7 +296,7 @@
       "submission_query": "SELECT REALTOR.NAME, REALTOR.SURNAME, SALARY AS DATA_REALTOR, SUM(PRICE) FROM REALTOR JOIN CONTRACT ON REALTOR.ID = CONTRACT.REALTOR_ID WHERE SALARY > 50000 AND RENTAL_DATE > 2023;",
       "human_reason": "The query is not syntactically correct because an aggregate function (sum) is used without group by. The name, surname and salary are not displayed as a single column. Aliases aren't used, but that has not been explicitly said in the problem statement. The rental date comparison is not valid, the column is of type DATE, not INTEGER.",
       "llm_reason": "The student's query has several issues that prevent it from running correctly. Firstly, the SELECT clause is missing a column for REALTOR_INFO which is required by the gold standard query. Secondly, there is a syntax error in the WHERE clause where '2023' should be '31-DEC-2023'. This makes Oracle SQL unable to parse and execute the query.",
-      "cause": "parital",
+      "cause": "partial",
       "cause_reason": "The model does not state that the sum function is used without group by."
     },
     {
@@ -676,7 +672,7 @@
       "submission_query": "CREATE VIEW MEMBER_STATISTICS AS SELECT GYM_MEMBER.NAME || ' ' ||  GYM_MEMBER.SURNAME as name_surname FROM GYM_MEMBER JOIN WORKOUT ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE AGE > 30 ORDER BY GYM_MEMBER.SURNAME DESC;",
       "human_reason": "The query is syntactically correct, but missing the average aggregate function, meaning that the group by clause is also missing. The alias for the view is different, but that is also valid.",
       "llm_reason": "The student's query does not include the AVG(DURATION) in the SELECT clause, which is necessary to calculate the average duration of a workout as per the question requirements. This results in an incorrect semantic error because the view will not provide the requested average workout duration information.",
-      "cause": "parital",
+      "cause": "partial",
       "cause_reason": "The model does not state that the group by clause is missing."
     },
     {
@@ -720,7 +716,7 @@
       "human_reason": "The query is syntactically correct but falsely combined the conditions for the workout duration and grade in the same part of the query.",
       "llm_reason": "Both the student's query and the gold query parse and execute correctly, targeting the same set of coach IDs to update the provision percentage. The main differences are in syntax and minor details but do not affect the logical outcome. The student's query is syntactically correct and semantically equivalent to the gold query as it filters coaches based on having at least five workouts longer than 30 minutes and not having any workout with a grade lower than 3, which aligns with the provided conditions.",
       "cause": "different",
-      "cause_reason":"The model did not identify that the query combined the two conditions falsely."
+      "cause_reason": "The model did not identify that the query combined the two conditions falsely."
     },
     {
       "submission_id": "s4_q2_sub3",
@@ -854,7 +850,7 @@
       "submission_query": "SELECT COACH.NAME, COACH.ID FROM COACH JOIN WORKOUT ON COACH.ID = WORKOUT.COACH_ID JOIN GYM_MEMBER ON GYM_MEMBER.ID = WORKOUT.GYM_MEMBER_ID WHERE height > 200 and status like 'active' GROUP BY COACH.ID, COACH.name;",
       "human_reason": "The query is both syntactically and semantically correct, the column order in the select statement is different, but that is not a problem. There is an unnecessary group by clause, but that does not interfere with the correctness of the query.",
       "llm_reason": "The student query includes a `GROUP BY` clause which is not present in the gold query. Additionally, the order of columns selected in the output does not match the gold query, but this alone would not be considered incorrect syntax as long as the data returned is correct.",
-      "cause": "parital",
+      "cause": "partial",
       "cause_reason": "The model does not state that the group by does not change the meaning of the student query."
     },
     {

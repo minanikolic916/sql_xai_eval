@@ -13,11 +13,7 @@
     "n_off_label": 0,
     "n_agreed": 82,
     "accuracy": 0.82,
-    "labels": [
-      "correct",
-      "incorrect_syntax",
-      "incorrect_semantic"
-    ],
+    "labels": ["correct", "incorrect_syntax", "incorrect_semantic"],
     "confusion_matrix": {
       "correct": {
         "correct": 16,

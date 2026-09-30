@@ -47,7 +47,7 @@ def write_run(path: Path, stamp: dict, rows: list[dict], run_metrics: dict) -> P
 
 
 def read_run(path: Path) -> dict:
-    with open(path) as f:
+    with open(path, encoding="utf-8", errors="replace") as f:
         return json.load(f)
 
 

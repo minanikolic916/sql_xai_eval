@@ -84,7 +84,13 @@ def compare(annotation_path: Path | None = None,
             table[side][cause] += 1
 
     return {"run_id": document["run_id"], "n_total": len(document["annotations"]),
-            "table": table, "blank": blank, "invalid": invalid}
+            "table": table, "blank": blank, "invalid": invalid,
+            "cause_totals": {v: table["agreed"][v] + table["differed"][v]
+                             for v in CAUSE_VALUES},
+            "right_for_right_reason": table["agreed"]["same"],
+            "right_for_wrong_reason": table["agreed"]["partial"] + table["agreed"]["different"],
+            "right_for_right_reason_lenient": table["agreed"]["same"] + table["agreed"]["partial"],
+            "right_for_wrong_reason_lenient": table["agreed"]["different"]}
 
 def render_comparison(summary: dict) -> str:
     table = summary["table"]
@@ -99,8 +105,28 @@ def render_comparison(summary: dict) -> str:
         lines.append(side.ljust(16)
                      + "".join(str(table[side][v]).rjust(width) for v in CAUSE_VALUES))
 
-    wrong = table["agreed"]["partial"] + table["agreed"]["different"]
-    lines += ["", f"right label, wrong reason: {wrong} of {agreed} correctly labelled"]
+    totals = summary["cause_totals"]
+    lines += ["-" * len(header),
+              "total".ljust(16)
+              + "".join(str(totals[v]).rjust(width) for v in CAUSE_VALUES),
+              "", f"of {annotated} annotated: "
+              + ", ".join(f"{v} {totals[v]}" for v in CAUSE_VALUES)]
+
+    right, wrong = summary["right_for_right_reason"], summary["right_for_wrong_reason"]
+    share = lambda n: f" ({n / agreed:.0%})" if agreed else ""
+    lines += ["", f"of {agreed} correctly labelled (strict — partial counts as wrong):",
+              f"  right for the right reason: {right}{share(right)}",
+              f"  right for the wrong reason: {wrong}{share(wrong)}"
+              f"   [partial {table['agreed']['partial']}"
+              f" + different {table['agreed']['different']}]"]
+
+    right, wrong = (summary["right_for_right_reason_lenient"],
+                    summary["right_for_wrong_reason_lenient"])
+    lines += ["", f"of {agreed} correctly labelled (lenient — partial counts as right):",
+              f"  right for the right reason: {right}{share(right)}"
+              f"   [same {table['agreed']['same']}"
+              f" + partial {table['agreed']['partial']}]",
+              f"  right for the wrong reason: {wrong}{share(wrong)}"]
     if summary["blank"]:
         lines.append(f"still blank: {', '.join(summary['blank'])}")
     if summary["invalid"]:
